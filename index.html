@@ -414,42 +414,51 @@
     .tg-btn:hover { background-color: #0077b5; }
 
 
-    /* =================================================== */
-    /* ثانياً: تنسيقات الموبايل المخصصة (تدمج الأمرين معاً لضمان العمل) */
-    /* =================================================== */
+/* =================================================== */
+/* ثانياً: تنسيقات الموبايل المخصصة */
+/* =================================================== */
 
-    .mobile-device .fixed-cart-top,
-    @media (max-width: 768px) { .fixed-cart-top { padding: 14px 24px; font-size: 17px; } }
+/* 1. التنسيقات المعتمدة على كلاس الأجهزة الذكية برمجياً */
+.mobile-device .fixed-cart-top { padding: 14px 24px; font-size: 17px; }
+.mobile-device .fixed-cart-top .cart-badge { font-size: 14px; }
+.mobile-device .copy-card-btn { padding: 14px 28px; font-size: 17px; }
+.mobile-device .btn-category { border: 3px solid #2c5e3b; padding: 12px 22px; font-size: 18px; font-weight: 900; text-shadow: 0.5px 0 0 #2c5e3b; }
 
-    .mobile-device .fixed-cart-top .cart-badge,
-    @media (max-width: 768px) { .fixed-cart-top .cart-badge { font-size: 14px; } }
-
-    .mobile-device .copy-card-btn,
-    @media (max-width: 768px) { .copy-card-btn { padding: 14px 28px; font-size: 17px; } }
-
-    .mobile-device .btn-category,
-    @media (max-width: 768px) { .btn-category { border: 3px solid #2c5e3b; padding: 12px 22px; font-size: 18px; font-weight: 900; text-shadow: 0.5px 0 0 #2c5e3b; } }
-
-    /* تم تعديل شريط وعناصر أزرار التواصل للموبايل هنا لضمان عدم التداخل والخراب */
-    .mobile-device .floating-contact-bar,
-    @media (max-width: 768px) { 
-      .floating-contact-bar { width: 92% !important; max-width: 440px !important; padding: 10px 14px !important; bottom: 15px !important; gap: 8px !important; } 
+/* 2. التنسيقات المعتمدة على حجم شاشة الموبايل (Media Query) */
+@media (max-width: 768px) {
+    .fixed-cart-top { padding: 14px 24px; font-size: 17px; }
+    .fixed-cart-top .cart-badge { font-size: 14px; }
+    .copy-card-btn { padding: 14px 28px; font-size: 17px; }
+    .btn-category { border: 3px solid #2c5e3b; padding: 12px 22px; font-size: 18px; font-weight: 900; text-shadow: 0.5px 0 0 #2c5e3b; }
+    
+    /* عرض منتجين بجانب بعض بدقة وفخامة */
+    #products-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        padding: 10px;
     }
+}
+    
+/* =================================================== */
+/* ثالثاً: عناصر أزرار التواصل والنوافذ للموبايل */
+/* =================================================== */
 
-    .mobile-device .floating-btn,
-    @media (max-width: 768px) { 
-      .floating-btn { padding: 12px 6px !important; font-size: 15px !important; font-weight: bold !important; gap: 4px !important; } 
-    }
+/* 1. التنسيقات المعتمدة على كلاس الأجهزة الذكية برمجياً */
+.mobile-device .floating-contact-bar { width: 92% !important; max-width: 440px !important; padding: 10px 14px !important; bottom: 15px !important; gap: 8px !important; } 
+.mobile-device .floating-btn { padding: 12px 6px !important; font-size: 15px !important; font-weight: bold !important; gap: 4px !important; } 
+.mobile-device .checkout-form input, .mobile-device .checkout-form textarea { padding: 14px; font-size: 16px; }
+.mobile-device .btn-send { padding: 15px 12px; font-size: 17px; }
+.mobile-device .contact-item { padding: 11px 18px; font-size: 17px; }
 
-    .mobile-device .checkout-form input, 
-    .mobile-device .checkout-form textarea,
-    @media (max-width: 768px) { .checkout-form input, .checkout-form textarea { padding: 14px; font-size: 16px; } }
-
-    .mobile-device .btn-send,
-    @media (max-width: 768px) { .btn-send { padding: 15px 12px; font-size: 17px; } }
-
-    .mobile-device .contact-item,
-    @media (max-width: 768px) { .contact-item { padding: 11px 18px; font-size: 17px; } }
+/* 2. التنسيقات المعتمدة على حجم شاشة الموبايل (Media Query) */
+@media (max-width: 768px) { 
+    .floating-contact-bar { width: 92% !important; max-width: 440px !important; padding: 10px 14px !important; bottom: 15px !important; gap: 8px !important; } 
+    .floating-btn { padding: 12px 6px !important; font-size: 15px !important; font-weight: bold !important; gap: 4px !important; } 
+    .checkout-form input, .checkout-form textarea { padding: 14px; font-size: 16px; }
+    .btn-send { padding: 15px 12px; font-size: 17px; }
+    .contact-item { padding: 11px 18px; font-size: 17px; }
+}
 
   </style>
 
@@ -624,7 +633,7 @@
               <div>
               <div class="product-price">${formattedPrice} د.ع</div>
                <div class="product-pv" style="font-size: 14px; color: #114232; font-weight: bold; margin-top: 4px; background: #fff8db; padding: 6px; border-radius: 4px; display: inline-block; text-align:center; width:calc(100% - 12px);">⭐ النقاط: ${productPV} PV</div>
-                <button class="btn-add-to-cart" onclick="addToCart('${name.replace(/'/g, "\\'")}', ${rawPrice}, ${productPV})" style="width:100%; margin-top:10px; background-color:#2c5e3b; color:white; border:none; padding:14px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:16px; touch-action: manipulation;">🛒 أضف للسلة</button>
+                <button class="btn-add-to-cart" onclick="addToCart('${name.replace(/'/g, "\\'")}', ${rawPrice}, ${productPV})" style="width:100%; margin-top:10px; background-color:#2c5e3b; color:white; border:none; padding:14px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; touch-action: manipulation;">🛒 أضف للسلة</button>
                 </div>
             </div>
           `;
