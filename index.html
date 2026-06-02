@@ -628,7 +628,7 @@
         <div style="background: #f9f9f9; border-right: 4px solid #114232; padding: 12px; margin-bottom: 15px; border-radius: 6px; font-size: 14px; color: #333; text-align: right; line-height: 1.5;">
           ◀️ <strong>ملاحظة الشحن:</strong> التوصيل متوفر لكافة محافظات العراق (المراكز والأقضية الرئيسية والمدن المحيطة بها) لباب البيت.<br>
           ◀️ <strong>فترة الشحن:</strong> يتم شحن وتوصيل الطلبات من يوم 1 إلى يوم 24 من كل شهر.<br>
-          ◀️ <strong>تنويه:</strong> استقبال الطلبات عبر الموقع متاح 24 ساعت طوال أيام الشهر، وسيتم حجز طلبك وتجهيزه فور بدء مواعيد الشحن الرسمية.
+          ◀️ <strong>تنويه:</strong> استقبال الطلبات عبر الموقع متاح 24 ساعة طوال أيام الشهر، وسيتم حجز طلبك وتجهيزه فور بدء مواعيد الشحن الرسمية.
         </div>
 
         <h4>📍 معلومات الشحن والتوصيل</h4>
@@ -639,7 +639,6 @@
         <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #114232; font-size: 14px; text-align: right;">رقم الهاتف</label>
         <input type="tel" id="cust-phone" placeholder="07xxxxxxxxx" required>
 
-        <!-- رجّعنا القائمة المنسدلة الذكية مع خيارات المحافظات بالكامل -->
         <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #114232; font-size: 14px; text-align: right;">المحافظة أو المدينة</label>
         <select id="cust-governorate" required>
           <option value="" disabled selected>اختر المحافظة أو المدينة...</option>
@@ -712,13 +711,6 @@
         document.getElementById("cust-governorate").value = localStorage.getItem("saved_cust_governorate");
       }
     };
-
-    window.addEventListener('scroll', function() {
-      var topLeftCart = document.getElementById('top-left-cart');
-      if(topLeftCart) {
-        topLeftCart.style.display = 'flex'; 
-      }
-    });
 
     function handleResponse(response) {
       if (response && response.error) {
@@ -851,7 +843,6 @@
     function updateCartUI() {
       const listContainer = document.getElementById("cart-items-list");
       const totalContainer = document.getElementById("cart-total-price");
-      const badge = document.getElementById("cart-count-badge");
       const pvAlertContainer = document.getElementById("smart-pv-alert");
 
       listContainer.innerHTML = "";
@@ -921,7 +912,6 @@
       }
 
       totalContainer.innerText = total.toLocaleString();
-      if (badge) badge.innerText = totalItems;
     }
 
     function changeQuantity(name, amount) {
