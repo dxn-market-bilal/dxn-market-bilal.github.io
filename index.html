@@ -679,12 +679,13 @@
     </div>
   </div>
 
-  <div id="imgModal" class="image-modal" onclick="this.style.display='none'">
+    <div id="imgModal" class="image-modal" onclick="closeZoomImage()">
     <img id="modalImg" src="" alt="صورة مكبرة">
   </div>
 
+
   <script>
-    let allProducts = [];
+        let allProducts = [];
     let cart = []; 
 
     window.onload = function() {
@@ -736,20 +737,20 @@
       const container = document.getElementById('products-container');
       const loadingDiv = document.getElementById('loading');
       container.innerHTML = '';
-      
+
       if (!productsList || productsList.length === 0) {
         container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size:16px;">لا توجد منتجات حالياً في هذا القسم.</p>';
       } else {
         productsList.forEach(product => {
           const card = document.createElement('div');
           card.className = 'product-card';
-          
+
           let name = product.name || 'منتج بدون اسم';
           let rawPrice = Number(product.price);
           let formattedPrice = !isNaN(rawPrice) ? rawPrice.toLocaleString() : 'غير محدد';
           let description = product.description || ''; 
           let imgUrl = (product.img && product.img.trim().startsWith('http')) ? product.img.trim() : '';
-          
+
           let productPV = Number(product.pv || product.points || 0);
           let safeName = name.replace(/'/g, "\\'");
 
@@ -795,12 +796,25 @@
       renderGrid(filtered);
     }
 
+    // 🟢 دالة فتح الصورة المكبرة مع تسجيل الهاش لزر الرجوع
     function zoomImage(url) {
       if(!url) return;
       const modal = document.getElementById('imgModal');
       const modalImg = document.getElementById('modalImg');
-      modalImg.src = url;
-      modal.style.display = 'flex';
+      if(modal && modalImg) {
+        modalImg.src = url;
+        modal.style.display = 'flex';
+        google.script.history.push(null, null, 'product');
+      }
+    }
+
+    // 🔴 دالة غلق الصورة يدوياً وتنظيف الرابط
+    function closeZoomImage() {
+      const modal = document.getElementById('imgModal');
+      if (modal) {
+        modal.style.display = 'none';
+        google.script.history.push(null, null, '');
+      }
     }
 
     function copyText(textToCopy, element) {
@@ -809,7 +823,7 @@
         tooltip.innerText = "تم النسخ! ✓";
         tooltip.style.visibility = "visible";
         tooltip.style.opacity = "1";
-        
+
         setTimeout(() => {
           tooltip.style.visibility = "hidden";
           tooltip.style.opacity = "0";
@@ -819,74 +833,55 @@
       });
     }
 
-    // الكود الذكي للتحكم بزر الرجوع عند فتح نافذة كود التخفيض
-// 1️⃣ دالة السلة المحدثة
-function toggleCartModal() {
-  var modal = document.getElementById("cart-modal");
-  if (modal.style.display === "none" || modal.style.display === "") {
-    modal.style.display = "flex";
-    google.script.history.push(null, null, 'cart'); // تسجيل فتح السلة
-  } else {
-    modal.style.display = "none";
-    google.script.history.push(null, null, '');
-  }
-}
+    // 🟢 دالة فتح وغلق السلة الذكية
+    function toggleCartModal() {
+      var modal = document.getElementById("cart-modal");
+      if (!modal) return;
+      if (modal.style.display === "none" || modal.style.display === "") {
+        modal.style.display = "flex";
+        google.script.history.push(null, null, 'cart');
+      } else {
+        modal.style.display = "none";
+        google.script.history.push(null, null, '');
+      }
+    }
 
-// 2️⃣ دالة كود التخفيض المحدثة (الزر الأسود)
-function toggleMemberModal() {
-  var modal = document.getElementById("member-modal"); // ⚠️ تأكد أن هذا هو الـ ID مالت نافذة الكود عندك
-  if (modal.style.display === "none" || modal.style.display === "") {
-    modal.style.display = "flex"; // أو 'block' حسب تصميمك
-    google.script.history.push(null, null, 'discount'); // تسجيل فتح كود التخفيض
-  } else {
-    modal.style.display = "none";
-    google.script.history.push(null, null, '');
-  }
-}
+    // 🟢 دالة فتح وغلق كود التخفيض الذكية
+    function toggleMemberModal() {
+      var modal = document.getElementById("member-modal");
+      if (!modal) return;
+      if (modal.style.display === "none" || modal.style.display === "") {
+        modal.style.display = "flex";
+        google.script.history.push(null, null, 'discount');
+      } else {
+        modal.style.display = "none";
+        google.script.history.push(null, null, '');
+      }
+    }
 
-// 3️⃣ دالة صورة المنتج المحدثة 
-// (إذا كانت عندك دالة ثانية تفتح الصورة بس ضيف سطر الـ google.script.history في نهايتها)
-function toggleProductModal() {
-  var modal = document.getElementById("product-modal"); // ⚠️ تأكد أن هذا هو الـ ID مالت نافذة عرض الصورة عندك
-  if (modal.style.display === "none" || modal.style.display === "") {
-    modal.style.display = "flex";
-    google.script.history.push(null, null, 'product'); // تسجيل فتح الصورة
-  } else {
-    modal.style.display = "none";
-    google.script.history.push(null, null, '');
-  }
-}
+    // 🛡️ الحارس الموحد لمراقبة دقمة الرجوع مالت التلفون للثلاث نوافذ
+    google.script.history.setChangeHandler(function(e) {
+      var cartModal = document.getElementById("cart-modal");
+      var memberModal = document.getElementById("member-modal");
+      var imgModal = document.getElementById("imgModal");
 
-// 4️⃣ الحارس الذكي الموحد لزر الرجوع مالت التلفون
-google.script.history.setChangeHandler(function(e) {
-  var cartModal = document.getElementById("cart-modal");
-  var memberModal = document.getElementById("member-modal");
-  var productModal = document.getElementById("product-modal");
-  
-  // أ) إذا اختفت كلمة cart والسلة مفتوحة -> سد السلة
-  if (e.location.hash !== 'cart' && cartModal) {
-    cartModal.style.display = "none";
-  }
-  
-  // ب) إذا اختفت كلمة discount ونافذة الكود مفتوحة -> سد نافذة الكود
-  if (e.location.hash !== 'discount' && memberModal) {
-    memberModal.style.display = "none";
-  }
-  
-  // ج) إذا اختفت كلمة product ونافذة الصورة مفتوحة -> سد نافذة الصورة
-  if (e.location.hash !== 'product' && productModal) {
-    productModal.style.display = "none";
-  }
-});
-
-
+      if (e.location.hash !== 'cart' && cartModal) {
+        cartModal.style.display = "none";
+      }
+      if (e.location.hash !== 'discount' && memberModal) {
+        memberModal.style.display = "none";
+      }
+      if (e.location.hash !== 'product' && imgModal) {
+        imgModal.style.display = "none";
+      }
+    });
 
     function addToCart(name, price, pv) {
       if (isNaN(price) || price <= 0) {
         alert("⚠️ هذا المنتج غير متاح للشراء حالياً.");
         return;
       }
-      
+
       let existingItem = cart.find(item => item.name === name);
       if (existingItem) {
         existingItem.quantity += 1;
@@ -916,15 +911,15 @@ google.script.history.setChangeHandler(function(e) {
         total += itemTotal;
         totalItems += item.quantity;
         totalPV += (item.pv || 0) * item.quantity;
-        
+
         const itemRow = document.createElement("div");
         itemRow.style.display = "flex";
-        itemRow.style.justifyContent = "space-between"; // تم تعديلها هنا لتوزيع العناصر بشكل صحيح
+        itemRow.style.justifyContent = "space-between";
         itemRow.style.alignItems = "center";
         itemRow.style.marginBottom = "12px";
         itemRow.style.paddingBottom = "10px";
         itemRow.style.borderBottom = "1px solid #f0f0f0";
-        
+
         let safeName = item.name.replace(/'/g, "\\'");
 
         itemRow.innerHTML = `
@@ -987,7 +982,7 @@ google.script.history.setChangeHandler(function(e) {
       }
     }
 
-function sendOrder(platform) {
+    function sendOrder(platform) {
       var name = document.getElementById("cust-name").value.trim();
       var phone = document.getElementById("cust-phone").value.trim();
       var governorate = document.getElementById("cust-governorate").value;
@@ -1015,34 +1010,34 @@ function sendOrder(platform) {
                          "🏢 *المحافظة:* " + governorate + "\n" +
                          "📍 *العنوان:* " + address + "\n" +
                          "📝 *ملاحظات:* " + (notes ? notes : "لا يوجد") + "\n\n";
-                         
+
       var orderDetails = "📦 *المنتجات المطلوبة:*\n";
       var totalSummaryPrice = 0;
       var totalSummaryPV = 0;
-      
+
       cart.forEach((item, index) => {
         var itemTotal = item.price * item.quantity;
         totalSummaryPrice += itemTotal;
         totalSummaryPV += (item.pv || 0) * item.quantity;
         orderDetails += (index + 1) + ". " + item.name + " (العدد: " + item.quantity + ") -> " + itemTotal.toLocaleString() + " د.ع\n";
       });
-      
+
       orderDetails += "\n⭐ *إجمالي نقاط الطلب:* " + totalSummaryPV + " PV";
-      
+
       if (totalSummaryPV >= 130) {
         orderDetails += "\n🚚 *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) 🎉";
       } else {
         orderDetails += "\n🚚 *حالة التوصيل:* غير مجاني (يُحدد السعر حسب عنوانك) 📍";
       }
-      
-      orderDetails += "\n💰 *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
-      
+
+      orderDetails += "\n🛒 *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
+
       var fullMessage = orderTitle + customerInfo + orderDetails;
       var encodedMessage = encodeURIComponent(fullMessage);
 
       if (platform === 'whatsapp') {
         var whatsappUrl = "https://wa.me/9647875415845?text=" + encodedMessage;
-          window.location.href = whatsappUrl;
+        window.location.href = whatsappUrl;
       } else if (platform === 'telegram') {
         var telegramUrl = "https://t.me/Ert234789?text=" + encodedMessage;
         window.location.href = telegramUrl;
@@ -1052,14 +1047,14 @@ function sendOrder(platform) {
     function copyMemberID() {
       var idNum = document.getElementById("member-id-number").innerText;
       navigator.clipboard.writeText(idNum);
-      
+
       var btn = document.querySelector(".copy-card-btn");
       var originalText = btn.innerHTML;
-      
+
       btn.innerHTML = "تم النسخ بنجاح! ✓";
       btn.style.background = "#114232"; 
       btn.style.color = "#ffffff";
-      
+
       setTimeout(function() {
         btn.innerHTML = originalText;
         btn.style.background = "#000000"; 
@@ -1067,11 +1062,6 @@ function sendOrder(platform) {
       }, 2000);
     }
 
-    // تصحيح حرف f ليكون صغيراً
-    function toggleMemberModal() {
-      var modal = document.getElementById("member-modal");
-      modal.style.display = modal.style.display === "none" ? "flex" : "none";
-    }
 </script>
 
 </body>
