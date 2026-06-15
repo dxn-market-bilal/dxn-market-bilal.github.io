@@ -531,7 +531,7 @@
     font-weight: bold !important;
 }
 
-/* تلوين حواف حقول الإدخال (الاسم، الهاتف، العنوان، المدينة) */
+/* تلوين حواف حقول الإدخال */
 .checkout-form input[type="text"], 
 .checkout-form input[type="tel"], 
 .checkout-form select, 
@@ -543,11 +543,8 @@
 .checkout-form {
     border-top: 3px solid #114232 !important;
 }
-.checkout-form {
-    border-top: 3px solid #114232 !important;
-}
+</style>
 
-  </style>
 
   <link rel="icon" type="image/jpeg" href="https://i.ibb.co/zWmbNc3R/photo-2026-06-02-08-37-05.jpg">
   <link rel="apple-touch-icon" href="https://i.ibb.co/zWmbNc3R/photo-2026-06-02-08-37-05.jpg">
@@ -824,7 +821,7 @@
       renderGrid(filtered);
     }
 
-    // 🟢 دالة فتح الصورة المكبرة بنظام pushState المتوافق مع دقمة رجوع التلفون داخل التطبيق
+    // 🟢 فتح الصورة المكبرة بنظام pushState المخصص للتطبيقات
     function zoomImage(url) {
       if(!url) return;
       const modal = document.getElementById('imgModal');
@@ -836,7 +833,7 @@
       }
     }
 
-    // 🔴 دالة غلق الصورة يدوياً
+    // 🔴 غلق الصورة يدوياً
     function closeZoomImage() {
       const modal = document.getElementById('imgModal');
       if (modal) {
@@ -857,13 +854,13 @@
         setTimeout(() => {
           tooltip.style.visibility = "hidden";
           tooltip.style.opacity = "0";
-        }, 2000);
+         }, 2000);
       }).catch(err => {
         console.error('فشلت عملية النسخ: ', err);
       });
     }
 
-    // 🟢 دالة فتح وغلق السلة بنظام pushState المتوافق مع دقمة رجوع التلفون داخل التطبيق
+    // 🟢 فتح وغلق السلة بنظام pushState المتوافق مع التطبيقات
     function toggleCartModal() {
       var modal = document.getElementById("cart-modal");
       if (!modal) return;
@@ -878,7 +875,7 @@
       }
     }
 
-    // 🟢 دالة فتح وغلق كود التخفيض بنظام pushState المتوافق مع دقمة رجوع التلفون داخل التطبيق
+    // 🟢 فتح وغلق كود التخفيض بنظام pushState المتوافق مع التطبيقات
     function toggleMemberModal() {
       var modal = document.getElementById("member-modal");
       if (!modal) return;
@@ -893,7 +890,7 @@
       }
     }
 
-    // 🛡️ الحارس العام للتطبيق (popstate) - يلقف ضغطة زر الرجوع مالت الموبايل ويغلق أي نافذة مفتوحة فوراً
+    // 🛡️ الحارس العام (popstate) - يلقف ضغطة زر الرجوع مالت الموبايل ويغلق النوافذ فوراً لمنع الخروج من التطبيق
     window.addEventListener('popstate', function(event) {
       var cartModal = document.getElementById("cart-modal");
       var memberModal = document.getElementById("member-modal");
