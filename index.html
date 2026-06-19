@@ -990,7 +990,7 @@ function updateCartUI(updateTimer = true) {
           const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000; // حساب 14 يوم بالملي ثانية
           localStorage.setItem('cart_expiry_time', Date.now() + FOURTEEN_DAYS_MS);
       }
-}
+  
       var topLeftCartCount = document.getElementById('cart-count-top');
       if (topLeftCartCount) topLeftCartCount.innerText = totalItems;
 
