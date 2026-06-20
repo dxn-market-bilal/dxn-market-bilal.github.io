@@ -612,7 +612,9 @@
       </div>
     <div style="display: flex; gap: 10px; width: 100%;">
     <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; align-items: center;">
-        <a onclick="openSocialLink('whatsapp')" class="floating-btn btn-wa" style="width: 100%; cursor: pointer;">واتساب للتواصل 💬</a>
+        <div style="display: flex; gap: 10px; width: 100%;">
+    <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; align-items: center;">
+        <a href="https://wa.me/9647875415845" class="floating-btn btn-wa" style="width: 100%;">واتساب للتواصل 💬</a>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; align-items: center;">
@@ -621,7 +623,7 @@
         <span class="copy-btn-text" style="color: #0288d1; border-color: #0288d1;" onclick="copyText('@Ert234789', this)">نسخ</span>
         <span class="tooltip-text">نسخ المعرف</span>
       </div>
-      <a onclick="openSocialLink('telegram')" class="floating-btn btn-tg" style="width: 100%; cursor: pointer;">تليجرام للتواصل 💬</a>
+      <a href="https://t.me/Ert234789" class="floating-btn btn-tg" style="width: 100%;">تليجرام للتواصل 💬</a>
     </div>
 </div>
 
@@ -1115,25 +1117,12 @@ function updateCartUI(updateTimer = true) {
       var fullMessage = orderTitle + customerInfo + orderDetails;
       var encodedMessage = encodeURIComponent(fullMessage);
 
-     // ضع هذا الجديد في السلة داخل دالة الإرسال
-var isInsideOurApp = navigator.userAgent.includes("DXN.Store");
-
-if (platform === 'whatsapp') {
-    if (isInsideOurApp) {
-        // يفتح تطبيق الواتساب المباشر فوراً داخل تطبيقك
-        window.location.href = "whatsapp://send?phone=9647875415845&text=" + encodedMessage;
-    } else {
-        // الرابط الجوكر إذا فتحوا السلة من حاسبة أو كروم عادي
-        window.location.href = "https://wa.me/9647875415845?text=" + encodedMessage;
-    }
-   } else if (platform === 'telegram') {
-    if (isInsideOurApp) {
-        // يفتح تطبيق التليجرام المباشر فوراً داخل تطبيقك
-        window.location.href = "tg://resolve?domain=Ert234789&text=" + encodedMessage;
-    } else {
-        // الرابط الجوكر للمتصفحات العادية
-        window.location.href = "https://t.me/Ert234789?text=" + encodedMessage;
-    }
+    if (platform === 'whatsapp') {
+    var whatsappUrl = "https://wa.me/9647875415845?text=" + encodedMessage;
+    window.open(whatsappUrl, '_blank');
+} else if (platform === 'telegram') {
+    var telegramUrl = "https://t.me/Ert234789?text=" + encodedMessage;
+    window.open(telegramUrl, '_blank');
 }
     }
 
@@ -1223,25 +1212,6 @@ if (platform === 'whatsapp') {
 document.addEventListener('DOMContentLoaded', initCart);
   
 </script>
-
-  <script>
-function openSocialLink(platform) {
-    var isInsideOurApp = navigator.userAgent.includes("DXN.Store");
-
-    if (platform === 'whatsapp') {
-        if (isInsideOurApp) {
-            window.location.href = "whatsapp://send?phone=9647875415845";
-        } else {
-            window.location.href = "https://wa.me/9647875415845";
-        }
-    } else if (platform === 'telegram') {
-        if (isInsideOurApp) {
-            window.location.href = "tg://resolve?domain=Ert234789";
-        } else {
-            window.location.href = "https://t.me/Ert234789";
-        }
-    }
-}
-  </script>
+      
 </body>
 </html>
