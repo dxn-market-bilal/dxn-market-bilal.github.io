@@ -1130,14 +1130,14 @@ function updateCartUI(updateTimer = true) {
       localStorage.setItem("saved_cust_governorate", governorate);
       localStorage.setItem("saved_cust_address", address);
 
-      var orderTitle = "* *طلب شراء جديد من متجر منتجات DXN* *\n\n";
-      var customerInfo = "* *الزبون:* " + name + "\n" +
-                         "* *الهاتف:* " + phone + "\n" +
-                         "* *المحافظة:* " + governorate + "\n" +
-                         "* *العنوان:* " + address + "\n" +
-                         "* *ملاحظات:* " + (notes ? notes : "لا يوجد") + "\n\n";
+      var orderTitle = "• *طلب شراء جديد من متجر منتجات DXN* \n\n";
+      var customerInfo = "• *الزبون:* " + name + "\n" +
+                         "• *الهاتف:* " + phone + "\n" +
+                         "• *المحافظة:* " + governorate + "\n" +
+                         "• *العنوان:* " + address + "\n" +
+                         "• *ملاحظات:* " + (notes ? notes : "لا يوجد") + "\n\n";
 
-      var orderDetails = "* *المنتجات المطلوبة:*\n";
+      var orderDetails = " *المنتجات المطلوبة:*\n";
       var totalSummaryPrice = 0;
       var totalSummaryPV = 0;
 
@@ -1148,15 +1148,15 @@ function updateCartUI(updateTimer = true) {
         orderDetails += (index + 1) + ". " + item.name + " (العدد: " + item.quantity + ") -> " + itemTotal.toLocaleString() + " د.ع\n";
       });
 
-      orderDetails += "\n* *إجمالي نقاط الطلب:* " + totalSummaryPV + " PV";
+      orderDetails += "\n• *إجمالي نقاط الطلب:* " + totalSummaryPV + " PV";
 
       if (totalSummaryPV >= 130) {
-        orderDetails += "\n* *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) ";
+        orderDetails += "\n• *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) ";
       } else {
-        orderDetails += "\n* *حالة التوصيل:* غير مجاني (يُحدد السعر حسب عنوانك) ";
+        orderDetails += "\n• *حالة التوصيل:* غير مجاني (يُحدد السعر حسب عنوانك) ";
       }
 
-      orderDetails += "\n* *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
+      orderDetails += "\n• *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
 
       var fullMessage = orderTitle + customerInfo + orderDetails;
       var encodedMessage = encodeURIComponent(fullMessage);
