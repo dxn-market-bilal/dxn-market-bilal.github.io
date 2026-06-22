@@ -154,15 +154,16 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
     }
 
     header {
-      background-color: #ffffff;
-      padding: 25px 15px;
-      text-align: center;
-      max-width: 800px;
-      margin: 20px auto;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-      border: 1px solid #eef2f0;
-    }
+    background-color: #2e7d32; /* 🟢 تم تغيير الخلفية للأخضر العضوي */
+    padding: 25px 15px;
+    text-align: center;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* تعديل بسيط للظل ليناسب الخلفية */
+    border: 1px solid #2e7d32; /* تغيير لون الحافة ليتناسق مع الأخضر */
+    color: #ffffff; /* ⚪ جعل النص باللون الأبيض ليكون واضحاً جداً */
+}
 
     .categories {
       display: flex;
@@ -263,7 +264,7 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       font-size: 19px;
       font-weight: bold;
       margin: 0 0 8px 0;
-      color: #1e824c;
+      color: #000000;
       line-height: 1.4;
     }
     .product-benefits {
@@ -1430,26 +1431,29 @@ document.addEventListener('DOMContentLoaded', initCart);
     });
 
       // دالة مشاركة المنتج لكل التطبيقات المتاحة بالجهاز
-function shareProduct(name, description, imgUrl) {
-  const shareText = `🌱 *${name}*\n\n📝 *الفائدة:* ${description || 'منتج طبيعي متميز'}\n\n📸 *رابط صورة المنتج:* ${imgUrl || 'لا توجد صورة متوفرة'}`;
-  
-  if (navigator.share) {
-    navigator.share({
-      title: name,
-      text: shareText
-    })
-    .then(() => console.log('تمت المشاركة بنجاح'))
-    .catch((error) => console.log('تم إلغاء المشاركة أو حدث خطأ:', error));
-  } else {
-    // حل بديل للمتصفحات القديمة التي لا تدعم المشاركة المباشرة
-    const textarea = document.createElement('textarea');
-    textarea.value = shareText;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    alert('📋 متصفحك لا يدعم فتح قائمة التطبيقات مباشرة، تم نسخ نص وفائدة المنتج تلقائياً لتتمكن من لصقها ومشاركتها في أي مكان!');
-  }
+function shareProduct(productName) {
+    // 1. صياغة الرسالة والنص الذي سيظهر عند المشاركة
+    var storeUrl = window.location.origin + window.location.pathname; 
+    var fullShareMessage = "🔥 شاهد منتج [" + productName + "] في متجر الرافدين للمنتجات العضوية:\n" + storeUrl;
+
+    // 2. الفحص إذا كان مفتوحاً داخل التطبيق
+    if (typeof AppInventor !== 'undefined') {
+        // يرسل النص للتطبيق مع كلمة مفتاحية share:
+        AppInventor.setWebViewString("share:" + fullShareMessage);
+    } else {
+        // إذا فُتح من متصفح عادي خارجي (كروم أو سفاري)
+        if (navigator.share) {
+            navigator.share({
+                title: productName,
+                text: fullShareMessage,
+                url: storeUrl
+            }).catch(err => console.log(err));
+        } else {
+            // كخيار احتياطي إذا كان المتصفح قديم جداً: يتم نسخ النص للكلية
+            navigator.clipboard.writeText(fullShareMessage);
+            alert("📋 تم نسخ رابط المنتج ووصفه، يمكنك مشاركته الآن!");
+        }
+    }
 }
       
     </script>
