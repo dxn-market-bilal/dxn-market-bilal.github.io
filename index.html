@@ -19,6 +19,33 @@
 
   <style>
 
+    #floating-share-btn {
+    position: fixed;
+    top: 20px;          /* المسافة من الأعلى */
+    right: 20px;        /* تثبيت الزر على الجانب الأيمن */
+    background-color: #2e7d32; /* لون أخضر طبيعي يناسب المتجر العضوي */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px; /* زوايا دائرية بالكامل */
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* ظل لإعطاء عمق */
+    z-index: 9999;      /* لضمان ظهوره فوق كل عناصر الصفحة والسلة */
+    cursor: pointer;
+    direction: rtl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+/* تأثير خفيف عند ضغط الزر */
+#floating-share-btn:active {
+    transform: scale(0.95);
+}
+
     /* إلغاء اللون الأزرق المشوش والوميض عند الضغط في الموقع والتطبيق */
 * {
     -webkit-tap-highlight-color: transparent !important;
@@ -1344,6 +1371,31 @@ function updateCartUI(updateTimer = true) {
 
 // الـ Listener الأساسي اللي نبهتني عليه يظل بمكانه 👇
 document.addEventListener('DOMContentLoaded', initCart);
+
+  function shareEntireSite() {
+    // 1. جلب رابط الموقع الحالي ديناميكياً وصياغة الرسالة
+    var currentUrl = window.location.origin + window.location.pathname;
+    var promoMessage = "🌸 مرحباً! تفضل بزيارة متجر الرافدين للمنتجات العضوية والطبيعية، واستكشف أفضل المنتجات والمكملات الغذائية:\n" + currentUrl;
+
+    // 2. التحقق من البيئة (تطبيق أم متصفح خارجي)
+    if (typeof AppInventor !== 'undefined') {
+        // إذا ضغط عليه من داخل التطبيق، يرسلها مباشرة للبلوكات التي صممتها عبر الـ share:
+        AppInventor.setWebViewString("share:" + promoMessage);
+    } else {
+        // إذا ضغط عليه من متصفح خارجي (كروم، سفاري، لابتوب)
+        if (navigator.share) {
+            navigator.share({
+                title: "متجر الرافدين للمنتجات العضوية",
+                text: promoMessage,
+                url: currentUrl
+            }).catch(err => console.log("خطأ في المشاركة:", err));
+        } else {
+            // حل احتياطي للمتصفحات التي لا تدعم المشاركة المباشرة
+            navigator.clipboard.writeText(promoMessage);
+            alert("📋 تم نسخ رابط المتجر بنجاح، يمكنك الآن مشاركته وإرساله عبر أي تطبيق!");
+        }
+    }
+}
   
 </script>
 
@@ -1407,6 +1459,10 @@ function shareProduct(name, description, imgUrl) {
         <polyline points="18 15 12 9 6 15"></polyline>
     </svg>
 </div>
+
+  <button id="floating-share-btn" onclick="shareEntireSite()">
+    📢 مشاركة الموقع
+</button>
       
 </body>
 </html>
