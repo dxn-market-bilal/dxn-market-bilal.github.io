@@ -725,9 +725,9 @@ button, .btn, img, nav, i, .menu {
         </div>
       
         <a href="https://wa.me/9647875415845" 
-           onclick="event.preventDefault(); if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ window.location.href='whatsapp://send?phone=9647875415845'; } else { window.open('https://wa.me/9647875415845', '_blank'); }" 
+           onclick="event.preventDefault(); if(typeof AppInventor !== 'undefined'){ AppInventor.setWebViewString('whatsapp://send?phone=9647875415845'); } else if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ window.location.href='whatsapp://send?phone=9647875415845'; } else { window.open('https://wa.me/9647875415845', '_blank'); }" 
            class="floating-btn btn-wa">
-           واتساب للتواصل 💬
+            واتساب للتواصل 💬
         </a>
     </div>
 
@@ -738,7 +738,11 @@ button, .btn, img, nav, i, .menu {
             <span class="tooltip-text">نسخ المعرف</span>
         </div>
 
-        <a href="https://t.me/Ert234789" class="floating-btn btn-tg">تليجرام للتواصل 💬</a>
+        <a href="https://t.me/Ert234789" 
+           onclick="event.preventDefault(); if(typeof AppInventor !== 'undefined'){ AppInventor.setWebViewString('https://t.me/Ert234789'); } else { window.open('https://t.me/Ert234789', '_blank'); }" 
+           class="floating-btn btn-tg">
+            تليجرام للتواصل 💬
+        </a>
     </div>
 </div>
 
