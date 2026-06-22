@@ -1458,8 +1458,7 @@ function shareProduct(productName, productBenefit) {
         if (navigator.share) {
             navigator.share({
                 title: productName,
-                text: fullShareMessage,
-                url: storeUrl
+                text: fullShareMessage
             }).catch(err => console.log(err));
         } else {
             navigator.clipboard.writeText(fullShareMessage);
