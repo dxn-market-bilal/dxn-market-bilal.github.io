@@ -1,6 +1,6 @@
 {
-  "name": "متجر الرافدين للمنتجات العضوية",
-  "short_name": "الرافدين",
+  "name": "متجر DXN للمنتجات العضوية",
+  "short_name": "DXN",
   "description": "متجر متميز لبيع المنتجات الصحية والطبيعية من DXN",
   "start_url": "./index.html",
   "display": "standalone",
