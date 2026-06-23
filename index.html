@@ -926,18 +926,19 @@
 
       <div style="background-color: #ffffff; border: 1px solid #e0e0e0; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: right; max-width: 400px; margin: 20px auto; direction: rtl; font-family: sans-serif;">
           <h4 style="color: #114232; margin: 0 0 12px 0; font-size: 18px; font-weight: bold;">تثبيت التطبيق السريع (PWA)</h4>
-          <p style="color: #666666; margin: 0 0 20px 0; font-size: 13px; line-height: 1.5; text-align: justify;">إضافة موقع المتجر كأيقونة تطبيق خفيفة ومباشرة على شاشتك الرئيسية، وتعمل بكفاءة على جميع الأجهزة والأنظمة وبدون تحميل ملفات.</p>
+          <p style="color: #666666; margin: 0 0 20px 0; font-size: 13px; line-height: 1.5; text-align: justify;">إضافة موقع المتجر كأيقونة تطبيق خفيفة ومباشرة على شاشتك الرئيسية، وتعمل بكفاءة على جميع الأجهزة والأنظمة, من دون الحاجة لفحص الأمان المذكور في ملف التحميل فوق.</p>
           
           <div style="background-color: #f4fbf7; border-right: 4px solid #114232; padding: 12px; margin-bottom: 12px; border-radius: 0 6px 6px 0;">
-              <span style="font-weight: bold; color: #114232; font-size: 13px; display: block; margin-bottom: 6px;">📱 لأجهزة الأندرويد (متصفح Chrome):</span>
+              <span style="font-weight: bold; color: #114232; font-size: 13px; display: block; margin-bottom: 6px;">لأجهزة الأندرويد (متصفح Chrome):</span>
               <ol style="margin: 0; padding-right: 18px; color: #444444; font-size: 12px; line-height: 1.6; font-weight: 600;">
                   <li>اضغط على زر الخيارات <span style="font-size: 14px; font-weight: bold;">[⁝]</span> أعلى يسار المتصفح.</li>
-                  <li>اختر من القائمة خيار <b>(التثبيت)</b> أو <b>(الإضافة إلى الشاشة الرئيسية)</b>.</li>
+                 <li>اختر من القائمة خيار <b>(الإضافة إلى الشاشة الرئيسية)</b>.</li>
+                 <li>اضغط على خيار <b>(التثبيت)</b> في النافذة التي تظهر لك.</li>
               </ol>
           </div>
 
           <div style="background-color: #f4fbf7; border-right: 4px solid #114232; padding: 12px; border-radius: 0 6px 6px 0;">
-              <span style="font-weight: bold; color: #114232; font-size: 13px; display: block; margin-bottom: 6px;">🍏 لأجهزة الآيفون (متصفح Safari):</span>
+              <span style="font-weight: bold; color: #114232; font-size: 13px; display: block; margin-bottom: 6px;">لأجهزة الآيفون (متصفح Safari):</span>
               <ol style="margin: 0; padding-right: 18px; color: #444444; font-size: 12px; line-height: 1.6; font-weight: 600;">
                   <li>اضغط على زر المشاركة <span style="font-size: 14px; font-weight: bold;">[⎋]</span> الموجود أسفل شاشة المتصفح.</li>
                   <li>قم بالتمرير للأسفل واضغط على خيار <b>(إضافة إلى الشاشة الرئيسية)</b>.</li>
@@ -1502,5 +1503,49 @@
         }
     }
   </script>
+
+  <div id="update-banner" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background-color: #114232; color: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; direction: rtl; font-family: sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">
+            📢 يتوفر تحديث جديد ومحسن للتطبيق! اضغط لتثبيت التحديث مباشرة.
+        </p>
+        <div style="display: flex; gap: 10px; margin-right: 10px;">
+            <a href="رابط_تحميل_الملف_الجديد_هنا" id="download-update-btn" style="background-color: #f4fbf7; color: #114232; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: bold; white-space: nowrap;">تحديث الآن</a>
+            <button onclick="dismissUpdateBanner()" style="background: none; border: none; color: white; cursor: pointer; font-size: 14px; font-weight: bold;">✕</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. تحديد رقم إصدار التحديث الحالي
+    const CURRENT_UPDATE_VERSION = "v2"; 
+    
+    // 2. التأكد هل المستخدم داخل التطبيق (عبر الرابط المميز)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isApp = urlParams.get('platform') === 'app';
+    
+    // 3. التعديل هنا: استخدام sessionStorage بدلاً من localStorage
+    const hasSeenUpdate = sessionStorage.getItem("app_update_seen_" + CURRENT_UPDATE_VERSION);
+
+    // إذا كان داخل التطبيق ولم يشاهد التحديث في هذه الجلسة، تظهر له الرسالة
+    if (isApp && !hasSeenUpdate) {
+        document.getElementById("update-banner").style.display = "block";
+    }
+    
+    // دالة إغلاق التنبيه وحفظ الخيار للجلسة الحالية فقط
+    window.dismissUpdateBanner = function() {
+        // التعديل هنا أيضاً: sessionStorage
+        sessionStorage.setItem("app_update_seen_" + CURRENT_UPDATE_VERSION, "true");
+        document.getElementById("update-banner").style.display = "none";
+    }
+
+    // إذا ضغط على زر التحديث، يتم أيضاً إخفاء التنبيه
+    document.getElementById("download-update-btn").addEventListener("click", function() {
+        dismissUpdateBanner();
+    });
+});
+</script>
+  
 </body>
 </html>
