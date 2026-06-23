@@ -11,6 +11,16 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="Wageh.jpg">
 
+  <link rel="icon" type="image/jpeg" href="Tbweb.jpg">
+  <link rel="apple-touch-icon" href="Tbweb.jpg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#114232">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="متجر DXN">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
   <script>
     if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768) {
       document.documentElement.classList.add('mobile-device');
@@ -18,89 +28,138 @@
   </script>
 
   <style>
-
-    #floating-share-btn {
-    position: fixed;
-    top: 20px;          /* المسافة من الأعلى */
-    right: 20px;        /* تثبيت الزر على الجانب الأيمن */
-    background-color: #2e7d32; /* لون أخضر طبيعي يناسب المتجر العضوي */
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 50px; /* زوايا دائرية بالكامل */
-    font-size: 14px;
-    font-weight: bold;
-    font-family: 'Cairo', sans-serif;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* ظل لإعطاء عمق */
-    z-index: 9999;      /* لضمان ظهوره فوق كل عناصر الصفحة والسلة */
-    cursor: pointer;
-    direction: rtl;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
-}
-
-/* تأثير خفيف عند ضغط الزر */
-#floating-share-btn:active {
-    transform: scale(0.95);
-}
-
-    /* إلغاء اللون الأزرق المشوش والوميض عند الضغط في الموقع والتطبيق */
-* {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-focus-ring-color: transparent !important;
-    outline: none !important;
-  }
-    
-  /* تعطيل النسخ وتحديد النصوص في الموقع بالكامل عدا الأزرار والمدخلات */
-body {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-input, textarea, select, button, .copy-card-btn, #member-id-number {
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
-    -ms-user-select: text !important;
-    user-select: text !important;
-}
-    
     /* =================================================== */
-    /* أولاً: تنسيقات الحاسبة الافتراضية (ناعمة وأنيقة وتلقائية)  */
+    /* 1. التنسيقات العامة وإعادة التعيين (Global Resets)  */
     /* =================================================== */
+    * {
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+      -webkit-focus-ring-color: transparent !important;
+      outline: none !important;
+      box-sizing: border-box;
+    }
 
-    /* 1. تنسيق السلة الثابتة فوق للحاسبة */
-    .fixed-cart-top {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      background-color: #114232;
-      color: white;
-      padding: 10px 18px; 
-      border-radius: 35px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, textarea, select, button, .copy-card-btn, #member-id-number {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+
+    a, button, .btn, img, i, nav, .menu {
+      -webkit-tap-highlight-color: transparent !important;
+      outline: none !important;
+    }
+
+    button, .btn, img, nav, i, .menu {
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+
+    .no-scroll {
+      overflow: hidden !important;
+      height: 100vh !important;
+    }
+
+    /* =================================================== */
+    /* 2. الهيدر ومكونات الترويسة (Header & Top Elements)  */
+    /* =================================================== */
+    header {
+      background-color: #2e7d32;
+      padding: 25px 15px;
+      text-align: center;
+      max-width: 800px;
+      margin: 20px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: 1px solid #2e7d32;
+      color: #ffffff;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px auto;
+      flex-wrap: wrap;
+      padding: 0 10px;
+      max-width: 800px;
+    }
+
+    .btn-category {
+      background-color: #fff;
+      border: 2px solid #2c5e3b; 
+      color: #2c5e3b;
+      padding: 8px 16px; 
+      border-radius: 25px;
       cursor: pointer;
-      z-index: 9999;
-      font-weight: bold;
       font-size: 15px; 
-      display: none;
+      font-weight: bold; 
       transition: all 0.3s ease;
       touch-action: manipulation;
     }
 
-    /* شارة عدد المنتجات داخل السلة الثابتة */
-    .fixed-cart-top .cart-badge {
-      background-color: #cc3333;
+    .btn-category:hover, .btn-category.active {
+      background-color: #27ae60;
+      border-color: #27ae60;
       color: white;
-      padding: 3px 10px;
-      border-radius: 50px;
-      font-size: 13px;
-      margin-right: 5px;
     }
 
-    /* 2. زر نسخ كارت العضوية المطور للحاسبة */
+    /* =================================================== */
+    /* 3. كرت العضوية المطور (Membership Card)            */
+    /* =================================================== */
+    .member-card-box {
+      background: linear-gradient(135deg, #ffffff, #f9fbf9) !important;
+      max-width: 420px;
+      margin: 25px auto;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(17, 66, 50, 0.08);
+      border: 2px dashed #114232;
+      text-align: center;
+      position: relative;
+    }
+
+    .membership-card {
+      background: linear-gradient(135deg, #114232, #0A221A);
+      border: 1px solid #F7E987;
+      border-radius: 12px;
+      padding: 15px;
+      color: #ffffff;
+      max-width: 340px;
+      margin: 15px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .member-card-box, .membership-card {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .member-id-container {
+      background: #e8f5e9 !important;
+      padding: 12px 24px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 12px 0;
+      border: 1px solid #c8e6c9;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
     .copy-card-btn {
       background: #000000 !important;
       color: #ffffff !important;
@@ -121,93 +180,9 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       transform: translateY(-2px);
     }
 
-    /* تصميم كرت العضوية المطور */
-    .member-card-box {
-      background: linear-gradient(135deg, #ffffff, #f9fbf9) !important;
-      max-width: 420px;
-      margin: 25px auto;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(17, 66, 50, 0.08);
-      border: 2px dashed #114232;
-      text-align: center;
-      position: relative;
-    }
-
-    .member-id-container {
-      background: #e8f5e9 !important;
-      padding: 12px 24px;
-      border-radius: 8px;
-      display: inline-block;
-      margin: 12px 0;
-      border: 1px solid #c8e6c9;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f7f6;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-
-    header {
-    background-color: #2e7d32; /* 🟢 تم تغيير الخلفية للأخضر العضوي */
-    padding: 25px 15px;
-    text-align: center;
-    max-width: 800px;
-    margin: 20px auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* تعديل بسيط للظل ليناسب الخلفية */
-    border: 1px solid #2e7d32; /* تغيير لون الحافة ليتناسق مع الأخضر */
-    color: #ffffff; /* ⚪ جعل النص باللون الأبيض ليكون واضحاً جداً */
-}
-
-    .categories {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 15px auto;
-      flex-wrap: wrap;
-      padding: 0 10px;
-      max-width: 800px;
-    }
-
-    /* 3. قوائم الأقسام العلوية للحاسبة */
-    .btn-category {
-      background-color: #fff;
-      border: 2px solid #2c5e3b; 
-      color: #2c5e3b;
-      padding: 8px 16px; 
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 15px; 
-      font-weight: bold; 
-      transition: all 0.3s ease;
-      touch-action: manipulation;
-    }
-    .btn-category:hover, .btn-category.active {
-      background-color: #27ae60;
-      border-color: #27ae60;
-      color: white;
-    }
-
-    .loading {
-      text-align: center;
-      font-size: 18px;
-      margin: 50px;
-      color: #7f8c8d;
-      padding: 20px;
-      background: #fff;
-      border-radius: 8px;
-      display: inline-block;
-    }
-    .loading-container {
-      text-align: center;
-    }
-
+    /* =================================================== */
+    /* 4. شبكة المنتجات والبطاقات (Products Grid & Cards)  */
+    /* =================================================== */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -216,41 +191,43 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       max-width: 1200px;
       margin: 0 auto 170px auto; 
     }
+
     .product-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 14px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.04);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: transform 0.3s;
       border: 1px solid #eef2f0;
-      height: auto !important;
-      border-radius: 14px; 
-      overflow: hidden;    
+      overflow: hidden; 
+      height: auto !important; 
     }
 
     .product-card:hover {
       transform: translateY(-5px);
     }
-    .product-img {
+
+    /* حل تضارب أبعاد الصور وتوحيد الطول */
+    .product-img, .product-img-fallback {
       width: 100%;
       height: 160px;
       object-fit: contain;
       padding: 10px;
-      background-color: #ffffff;
       box-sizing: border-box;
     }
 
+    .product-img {
+      background-color: #ffffff;
+    }
+
     .product-img-fallback {
-      width: 100%;
-      height: 140px;
       background: linear-gradient(135deg, #ebf7ee 0%, #ccecd5 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 45px;
-      box-sizing: border-box;
     }
 
     .product-info {
@@ -260,6 +237,7 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       flex-direction: column;
       justify-content: space-between;
     }
+
     .product-name {
       font-size: 19px;
       font-weight: bold;
@@ -267,13 +245,15 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       color: #000000;
       line-height: 1.4;
     }
+
     .product-benefits {
       font-size: 15px;
       font-weight: bold; 
-      color: #2c5e3b;    
+      color: #2c5e3b;   
       margin-bottom: 15px;
       line-height: 1.5;
     }
+
     .product-price {
       font-size: 17px;
       font-weight: bold;
@@ -301,10 +281,70 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       width: 90%;
       text-align: center;
     }
+
     .btn-add-to-cart:hover {
       background-color: #21462c;
     }
 
+    /* =================================================== */
+    /* 5. العناصر العائمة (Floating Components)          */
+    /* =================================================== */
+    /* زر المشاركة العائم */
+    #floating-share-btn {
+      position: fixed;
+      top: 20px;          
+      right: 20px;        
+      background-color: #2e7d32; 
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px; 
+      font-size: 14px;
+      font-weight: bold;
+      font-family: 'Cairo', sans-serif;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+      z-index: 9999;      
+      cursor: pointer;
+      direction: rtl;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    #floating-share-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* السلة الثابتة في الأعلى */
+    .fixed-cart-top {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #114232;
+      color: white;
+      padding: 10px 18px; 
+      border-radius: 35px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 9999;
+      font-weight: bold;
+      font-size: 15px; 
+      display: none;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+    }
+
+    .fixed-cart-top .cart-badge {
+      background-color: #cc3333;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+
+    /* شريط الاتصال السفلي العائم */
     .floating-contact-bar {
       position: fixed;
       bottom: 20px;
@@ -320,6 +360,7 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       width: 420px; 
       box-sizing: border-box;
     }
+
     .floating-btn {
       flex: 1;
       padding: 10px 8px;
@@ -334,10 +375,128 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       gap: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+
     .btn-wa { background-color: #25D366; }
     .btn-wa:hover { background-color: #20ba5a; }
     .btn-tg { background-color: #24A1DE; }
     .btn-tg:hover { background-color: #1e87bb; }
+
+    /* زر العودة للأعلى */
+    .scroll-to-top {
+      position: fixed !important;
+      bottom: 100px !important; 
+      right: 25px !important;   
+      width: 60px !important;
+      height: 60px !important;
+      background-color: rgba(18, 18, 18, 0.85) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+      z-index: 99999 !important; 
+      -webkit-tap-highlight-color: transparent !important;
+    }
+
+    .scroll-to-top svg {
+      width: 28px !important;
+      height: 28px !important;
+      transition: transform 0.3s ease !important;
+    }
+
+    .scroll-to-top:active {
+      transform: scale(0.9) translateY(-5px) !important;
+      background-color: rgba(0, 0, 0, 0.95) !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .scroll-to-top.show {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    /* =================================================== */
+    /* 6. النوافذ المنبثقة والسلة (Modals & Cart Content)  */
+    /* =================================================== */
+    .cart-modal {
+      position: fixed;
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none; 
+      justify-content: center; 
+      align-items: center;      
+      z-index: 99999;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+
+    .cart-content {
+      background: #ffffff; 
+      width: 100%; 
+      max-width: 460px;
+      border-radius: 14px; 
+      padding: 22px; 
+      max-height: 85vh; 
+      overflow-y: auto;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+      margin: 0 auto !important; 
+    }
+
+    .close-cart-btn { 
+      position: sticky !important;
+      top: 0px;
+      float: left;
+      background: #000000 !important; 
+      border: none; 
+      width: 32px; 
+      height: 32px; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      cursor: pointer; 
+      color: #ffffff !important; 
+      transition: all 0.2s; 
+      z-index: 10000; 
+      margin-bottom: -32px;
+    }
+
+    .close-cart-btn:hover {
+      background: #222222 !important;
+      transform: rotate(90deg);
+    }
+
+    .cart-header {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      border-bottom: 2px solid #114232; 
+      padding-bottom: 10px; 
+      margin-bottom: 15px;
+    }
+
+    .cart-items-list { 
+      margin-bottom: 15px; 
+    }
+
+    .cart-summary { 
+      font-size: 18px; 
+      font-weight: bold; 
+      border-bottom: 1px dashed #ccc; 
+      padding-bottom: 10px; 
+      margin-bottom: 15px; 
+      text-align: right; 
+    }
 
     .image-modal {
       display: none; 
@@ -351,11 +510,69 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       justify-content: center;
       align-items: center;
     }
+
     .image-modal img {
       max-width: 90%;
       max-height: 85%;
       border-radius: 8px;
     }
+
+    /* =================================================== */
+    /* 7. استمارة الشراء والاتصال (Checkout Form & Tooltip) */
+    /* =================================================== */
+    .checkout-form {
+      border-top: 3px solid #114232 !important;
+    }
+
+    .checkout-form h4, #cart-modal h4 {
+      background-color: #114232 !important;
+      color: #ffffff !important;
+    }
+
+    .checkout-form label {
+      color: #114232 !important;
+      font-weight: bold !important;
+    }
+
+    .checkout-form input, .checkout-form select, .checkout-form textarea {
+      width: 100%; 
+      padding: 10px; 
+      margin-bottom: 12px;
+      border: 1px solid #114232 !important; 
+      border-radius: 8px; 
+      font-family: inherit; 
+      font-size: 15px; 
+      box-sizing: border-box;
+    }
+
+    .checkout-form textarea { 
+      height: 75px; 
+      resize: vertical; 
+    }
+
+    .submit-buttons-row { 
+      display: flex; 
+      gap: 10px; 
+      margin-top: 15px; 
+    }
+
+    .btn-send {
+      flex: 1; 
+      border: none; 
+      padding: 10px 12px; 
+      border-radius: 8px;
+      color: #fff; 
+      font-weight: bold; 
+      font-size: 15px; 
+      cursor: pointer; 
+      transition: 0.2s;
+      touch-action: manipulation;
+    }
+
+    .wa-btn { background-color: #25D366; }
+    .wa-btn:hover { background-color: #1ebd54; }
+    .tg-btn { background-color: #0088cc; }
+    .tg-btn:hover { background-color: #0077b5; }
 
     .contact-item {
       background: rgba(0, 0, 0, 0.04);
@@ -409,113 +626,97 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
-    .membership-card {
-      background: linear-gradient(135deg, #114232, #0A221A);
-      border: 1px solid #F7E987;
-      border-radius: 12px;
-      padding: 15px;
-      color: #ffffff;
-      max-width: 340px;
-      margin: 15px auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      text-align: center;
-    }
-
-    .cart-modal {
-  position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none; /* ✅ الافتراضي مخفية، وتظهر فقط عند الاستدعاء */
-  justify-content: center; 
-  align-items: center;     
-  z-index: 99999;
-  padding: 15px;
-  box-sizing: border-box;
-}
-    
-    .cart-content {
-  background: #ffffff; 
-  width: 100%; 
-  max-width: 460px;
-  border-radius: 14px; 
-  padding: 22px; 
-  max-height: 85vh; /* تعديل خفيف لحماية الشاشات الصغيرة من الاختفاء */
-  overflow-y: auto;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-  margin: 0 auto !important; /* تصفير الهوامش الجانبية لمنع الانحراف */
-}
-
-    .close-cart-btn { 
-      position: sticky !important;
-      top: 0px;
-      float: left;
-      background: #000000 !important; 
-      border: none; 
-      width: 32px; 
-      height: 32px; 
-      border-radius: 50%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      cursor: pointer; 
-      color: #ffffff !important; 
-      transition: all 0.2s; 
-      z-index: 10000; 
-      margin-bottom: -32px;
-    }
-    .close-cart-btn:hover {
-      background: #222222 !important;
-      transform: rotate(90deg);
-    }
-
-    .cart-header {
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 2px solid #114232; padding-bottom: 10px; margin-bottom: 15px;
-    }
-    .cart-items-list { margin-bottom: 15px; }
-    .cart-summary { font-size: 18px; font-weight: bold; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 15px; text-align: right; }
-
-    .checkout-form input, .checkout-form select, .checkout-form textarea {
-      width: 100%; 
-      padding: 10px; 
-      margin-bottom: 12px;
-      border: 1px solid #ccc; 
-      border-radius: 8px; 
-      font-family: inherit; 
-      font-size: 15px; 
-      box-sizing: border-box;
-    }
-    .checkout-form textarea { height: 75px; resize: vertical; }
-    .submit-buttons-row { display: flex; gap: 10px; margin-top: 15px; }
-
-    .btn-send {
-      flex: 1; 
-      border: none; 
-      padding: 10px 12px; 
-      border-radius: 8px;
-      color: #fff; 
-      font-weight: bold; 
-      font-size: 15px; 
-      cursor: pointer; 
-      transition: 0.2s;
-      touch-action: manipulation;
-    }
-    .wa-btn { background-color: #25D366; }
-    .wa-btn:hover { background-color: #1ebd54; }
-    .tg-btn { background-color: #0088cc; }
-    .tg-btn:hover { background-color: #0077b5; }
-
     /* =================================================== */
-    /* ثانياً وثالثاً: تنسيقات الموبايل المخصصة وأزرار التواصل */
+    /* 8. شاشات الموبايل والاستجابة (Responsive & Mobile)  */
     /* =================================================== */
+    @media (max-width: 768px) {
+      .fixed-cart-top { 
+        padding: 14px 24px; 
+        font-size: 17px; 
+      }
+      
+      .fixed-cart-top .cart-badge { 
+        font-size: 14px; 
+      }
+      
+      .copy-card-btn { 
+        padding: 14px 28px; 
+        font-size: 17px; 
+      }
 
+      .btn-category { 
+        border: 2px solid #2c5e3b !important; 
+        padding: 10px 16px !important; 
+        font-size: 15px !important; 
+        font-weight: 500 !important; 
+        text-shadow: none !important; 
+      }
+
+      #products-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        padding: 10px;
+      }
+
+      .product-name, .product-card h3, .product-title {
+        font-weight: 500 !important;
+      }
+
+      .btn-add-to-cart {
+        display: block !important; 
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important; 
+        padding: 6px 4px !important; 
+        font-size: 13px !important; 
+        font-weight: 500 !important; 
+        border-radius: 6px !important;
+        margin: 8px auto 0 auto !important;
+      }
+
+      .floating-contact-bar { 
+        width: 94% !important; 
+        max-width: 440px !important; 
+        padding: 12px 10px !important; 
+        bottom: 15px !important; 
+        gap: 10px !important; 
+      } 
+      
+      .floating-btn { 
+        padding: 12px 4px !important; 
+        font-size: 14px !important; 
+        font-weight: bold !important; 
+        gap: 4px !important; 
+      } 
+      
+      .checkout-form input, .checkout-form select, .checkout-form textarea { 
+        padding: 14px; 
+        font-size: 16px; 
+      }
+      
+      .btn-send { 
+        padding: 15px 12px; 
+        font-size: 17px; 
+      }
+      
+      .contact-item { 
+        padding: 8px 10px; 
+        font-size: 12px; 
+      }
+
+      .cart-content {
+        width: 88% !important;
+        max-height: 82vh !important;
+        padding: 16px !important;
+      }
+    }
+
+    /* فئات الموبايل عبر نظام الأندرويد والـ iOS */
     .mobile-device .fixed-cart-top { padding: 14px 24px; font-size: 17px; }
     .mobile-device .fixed-cart-top .cart-badge { font-size: 14px; }
     .mobile-device .copy-card-btn { padding: 14px 28px; font-size: 17px; }
-    .mobile-device .btn-category { border: 2px solid #2c5e3b; padding: 10px 16px; font-size: 15px; font-weight: 500 !important; text-shadow: none !important; }
+    .mobile-device .btn-category { border: 2px solid #2c5e3b; padding: 10px 16px; font-size: 15px; font-weight: 500 !important; }
     .mobile-device .floating-contact-bar { width: 94% !important; max-width: 440px !important; padding: 12px 10px !important; bottom: 15px !important; gap: 10px !important; } 
     .mobile-device .floating-btn { padding: 12px 4px !important; font-size: 14px !important; font-weight: bold !important; gap: 4px !important; } 
     .mobile-device .checkout-form input, .mobile-device .checkout-form select, .mobile-device .checkout-form textarea { padding: 14px; font-size: 16px; }
@@ -523,174 +724,18 @@ input, textarea, select, button, .copy-card-btn, #member-id-number {
     .mobile-device .contact-item { padding: 8px 10px; font-size: 12px; }
     .mobile-device .product-card h3, .mobile-device .product-title, .mobile-device .product-name { font-weight: 500 !important; }
     .mobile-device .btn-add-to-cart { display: block !important; width: 100% !important; padding: 6px 4px !important; font-size: 13px !important; font-weight: 500 !important; }
+    .mobile-device .cart-content { width: 88% !important; max-height: 82vh !important; padding: 16px !important; }
+  </style>
 
-    .mobile-device .cart-content {
-      width: 88% !important;
-      max-height: 82vh !important;
-      padding: 16px !important;
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('تم تفعيل نظام التطبيق بنجاح!', reg))
+          .catch(err => console.log('فشل تفعيل نظام التطبيق:', err));
+      });
     }
-
-    @media (max-width: 768px) {
-        .fixed-cart-top { padding: 14px 24px; font-size: 17px; }
-        .fixed-cart-top .cart-badge { font-size: 14px; }
-        .copy-card-btn { padding: 14px 28px; font-size: 17px; }
-
-        .btn-category, .category-btn, .category-tab { 
-            border: 2px solid #2c5e3b !important; 
-            padding: 10px 16px !important; 
-            font-size: 15px !important; 
-            font-weight: 500 !important; 
-            text-shadow: none !important; 
-        }
-
-        #products-container {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 12px !important;
-            padding: 10px;
-        }
-
-        .product-name, .product-card h3, .product-title {
-            font-weight: 500 !important;
-        }
-
-        .btn-add-to-cart {
-            display: block !important; 
-            visibility: visible !important;
-            opacity: 1 !important;
-            width: 100% !important; 
-            padding: 6px 4px !important; 
-            font-size: 13px !important; 
-            font-weight: 500 !important; 
-            border-radius: 6px !important;
-            margin: 8px auto 0 auto !important;
-        }
-
-        .floating-contact-bar { width: 94% !important; max-width: 440px !important; padding: 12px 10px !important; bottom: 15px !important; gap: 10px !important; } 
-        .floating-btn { padding: 12px 4px !important; font-size: 14px !important; font-weight: bold !important; gap: 4px !important; } 
-        .checkout-form input, .checkout-form select, .checkout-form textarea { padding: 14px; font-size: 16px; }
-        .btn-send { padding: 15px 12px; font-size: 17px; }
-        .contact-item { padding: 8px 10px; font-size: 12px; }
-
-        .cart-content {
-          width: 88% !important;
-          max-height: 82vh !important;
-          padding: 16px !important;
-        }
-    }
-
-.checkout-form h4, #cart-modal h4 {
-    background-color: #114232 !important;
-    color: #ffffff !important;
-}
-
-.checkout-form label {
-    color: #114232 !important;
-    font-weight: bold !important;
-}
-
-.checkout-form input[type="text"], 
-.checkout-form input[type="tel"], 
-.checkout-form select, 
-.checkout-form textarea {
-    border: 1px solid #114232 !important;
-}
-
-.checkout-form {
-    border-top: 3px solid #114232 !important;
-}
-
-    /* 👈 ضعه هنا مباشرة قبل وسم إغلاق الستايل */
- .no-scroll {
-    overflow: hidden !important;
-    height: 100vh !important;
-}
-
-    /* ضبط كرت العضوية والكود ليكون بالمنتصف تماماً أيضاً */
-.member-card-box, .membership-card {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-   /* 1. إلغاء ومضة الضغط الرمادية على الأزرار والروابط تماماً */
-a, button, .btn, img, i {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    outline: none !important;
-}
-
-/* 2. منع التحديد العشوائي على الأزرار والصور والقوائم فقط أثناء التقليب */
-button, .btn, img, nav, i, .menu {
-    -webkit-user-select: none !important;
-    user-select: none !important;
-}
-    
-</style>
-
-  <link rel="icon" type="image/jpeg" href="Tbweb.jpg">
-  <link rel="apple-touch-icon" href="Tbweb.jpg">
-
-   <style>
-.scroll-to-top {
-    position: fixed !important;
-    bottom: 100px !important; /* يرفعه لي فوق حتى يبتعد عن أزرار الاتصال تماماً */
-    right: 25px !important;   /* يثبته بجهة اليمين */
-    width: 60px !important;
-    height: 60px !important;
-    background-color: rgba(18, 18, 18, 0.85) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    z-index: 99999 !important; /* يضمن ظهوره فوق كل شيء بالصفحة */
-    -webkit-tap-highlight-color: transparent !important;
-}
-
-.scroll-to-top svg {
-    width: 28px !important;
-    height: 28px !important;
-    transition: transform 0.3s ease !important;
-}
-
-.scroll-to-top:active {
-    transform: scale(0.9) translateY(-5px) !important;
-    background-color: rgba(0, 0, 0, 0.95) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
-}
-
-/* فئة الظهور الخاصة بالجافاسكريبت */
-.scroll-to-top.show {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-</style>
-
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#114232">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="متجر DXN">
-<link rel="apple-touch-icon" href="icon-192.png">
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('تم تفعيل نظام التطبيق بنجاح!', reg))
-        .catch(err => console.log('فشل تفعيل نظام التطبيق:', err));
-    });
-  }
-</script>
-
+  </script>
 </head>
 
 <body>
