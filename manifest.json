@@ -1,6 +1,6 @@
 {
   "name": "متجر DXN للمنتجات العضوية",
-  "short_name": "DXN",
+  "short_name": "متجر منتجات DXN",
   "description": "متجر متميز لبيع المنتجات الصحية والطبيعية من DXN",
   "start_url": "./index.html",
   "display": "standalone",
