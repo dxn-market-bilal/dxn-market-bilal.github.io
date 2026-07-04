@@ -1160,10 +1160,12 @@
        </div>
        <div>
          <div class="product-price">${formattedPrice} د.ع</div>
-         
+
+         <!--
          <div class="product-pv" style="font-size: 14px; color: #114232; font-weight: bold; margin-top: 8px; background: #fff8db; padding: 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; width: 100%;">
             ⭐ النقاط: ${productPV} PV
          </div>
+         -->
          
         <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
           <button onclick="addToCart('${safeName}', ${rawPrice}, ${productPV})" 
@@ -1346,7 +1348,7 @@
         itemRow.innerHTML = `
           <div style="text-align:right; flex-grow: 1;">
             <strong style="color:#114232; font-size:15px; font-weight:600;">${item.name}</strong> <br>
-            <span style="font-size:13px; color:#777;">${item.price.toLocaleString()} د.ع (النقاط: ${(item.pv * item.quantity)} PV)</span>
+            <span style="font-size:13px; color:#777;">${item.price.toLocaleString()} د.ع <!--(النقاط: ${(item.pv * item.quantity)} PV)--></span>
           </div>
           
           <div style="display: flex; align-items: center; gap: 8px; margin-left: 12px; margin-right: 12px; direction: ltr;">
@@ -1373,6 +1375,7 @@
       var topLeftCartCount = document.getElementById('cart-count-top');
       if (topLeftCartCount) topLeftCartCount.innerText = totalItems;
 
+      /*
       // منطق تنبيه الـ 130 نقطة للتوصيل المجاني المحدث
       if (totalPV > 0 && totalPV < 130) {
         let remainingPV = 130 - totalPV;
@@ -1396,6 +1399,8 @@
       } else {
         pvAlertContainer.style.display = "none";
       }
+      */
+      pvAlertContainer.style.display = "none";
 
       totalContainer.innerText = total.toLocaleString();
     }
@@ -1455,7 +1460,7 @@
         orderDetails += (index + 1) + ". " + item.name + " (العدد: " + item.quantity + ") -> " + itemTotal.toLocaleString() + " د.ع\n";
       });
 
-      orderDetails += "\n• *إجمالي نقاط الطلب:* " + totalSummaryPV + " PV";
+    //  orderDetails += "\n• *إجمالي نقاط الطلب:* " + totalSummaryPV + " PV";
 
       if (totalSummaryPV >= 130) {
         orderDetails += "\n• *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) ";
