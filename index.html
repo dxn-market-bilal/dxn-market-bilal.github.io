@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl"> 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-
+ 
   <!-- 🚀 أوسمة محرك البحث جوجل والأرشفة (SEO) -->
   <title>متجر منتجات DXN</title>
   <meta name="description" content="متجر منتجات DXN  أفضل المكملات الغذائية والأغذية الطبيعية والصحية في العراق بإدارة بلال جمال جاسم. جودة مضمونة وتوصيل سريع.">
@@ -216,7 +216,6 @@
       transform: translateY(-5px);
     }
 
-    /* حل تضارب أبعاد الصور وتوحيد الطول */
     .product-img, .product-img-fallback {
       width: 100%;
       height: 160px;
@@ -296,7 +295,6 @@
     /* =================================================== */
     /* 5. العناصر العائمة (Floating Components)          */
     /* =================================================== */
-    /* زر المشاركة العائم */
     #floating-share-btn {
       position: fixed;
       top: 20px;          
@@ -323,7 +321,6 @@
       transform: scale(0.95);
     }
 
-    /* السلة الثابتة في الأعلى */
     .fixed-cart-top {
       position: fixed;
       top: 15px;
@@ -351,7 +348,6 @@
       margin-right: 5px;
     }
 
-    /* شريط الاتصال السفلي العائم */
     .floating-contact-bar {
       position: fixed;
       bottom: 20px;
@@ -388,7 +384,6 @@
     .btn-tg { background-color: #24A1DE; }
     .btn-tg:hover { background-color: #1e87bb; }
 
-    /* زر العودة للأعلى */
     .scroll-to-top {
       position: fixed !important;
       bottom: 100px !important; 
@@ -443,44 +438,95 @@
       justify-content: center; 
       align-items: center;      
       z-index: 99999;
-      padding: 15px;
+      padding: 0 !important;
       box-sizing: border-box;
     }
 
-    .cart-button { /* غير اسم الكلاس حسب الاسم اللي حاطه بالسلة */
-    transform: scale(1.25); /* رقم 1.25 يعني تكبير الحجم بنسبة 25%، تگدر تزيده أو تقلله */
-    transform-origin: center; /* يضمن التكبير من السنتر بدون زحف */
+    .cart-button { 
+      transform: scale(1.25); 
+      transform-origin: center; 
     } 
 
-    .cart-content {
+    /* 🟢 أولاً: ستايل شاشة السلة الكاملة المخصص فقط لـ #cart-modal */
+    #cart-modal .cart-content {
       background: #ffffff; 
-      width: 100%; 
-      max-width: 460px;
-      border-radius: 14px; 
-      padding: 22px; 
-      max-height: 85vh; 
+      width: 100% !important; 
+      max-width: 100% !important;
+      height: 100vh !important; 
+      max-height: 100vh !important; 
+      border-radius: 0 !important; 
+      padding: 25px 20px !important; 
       overflow-y: auto;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-      margin: 0 auto !important; 
+      margin: 0 !important; 
+      box-sizing: border-box;
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px;
     }
 
-    .close-cart-btn { 
-      position: sticky !important;
-      top: 0px;
-      float: left;
+    /* 🟡 ثانياً: إرجاع كرت العضوية صغيراً ومرتباً في منتصف الشاشة لـ #member-modal */
+    #member-modal .cart-content {
+      background: #ffffff !important; 
+      width: 92% !important; 
+      max-width: 460px !important; /* الحجم الصغير المرتب الأصلي */
+      height: auto !important; 
+      max-height: 85vh !important; 
+      border-radius: 14px !important; /* الحواف المنحنية الفخمة */
+      padding: 25px !important; 
+      overflow-y: auto !important;
+      margin: auto !important; 
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3) !important;
+      position: relative !important;
+      display: block !important; /* إلغاء نظام الـ Grid والـ Flex عنه */
+    }
+
+    /* زر إغلاق السلة العائم المخصص للشاشة الكاملة */
+    #cart-modal .close-cart-btn { 
+      position: fixed !important; 
+      top: 25px !important;
+      left: 25px !important; 
       background: #000000 !important; 
-      border: none; 
-      width: 32px; 
-      height: 32px; 
-      border-radius: 50%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      cursor: pointer; 
+      border: none !important; 
+      width: 42px !important; 
+      height: 42px !important; 
+      border-radius: 50% !important; 
+      display: flex !important; 
+      align-items: center !important; 
+      justify-content: center !important; 
+      cursor: pointer !important; 
       color: #ffffff !important; 
-      transition: all 0.2s; 
-      z-index: 10000; 
-      margin-bottom: -32px;
+      transition: all 0.2s ease; 
+      z-index: 100000 !important; 
+      margin: 0 !important;
+      float: none !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* زر إغلاق كرت العضوية الصغير ليكون متناسقاً وبأعلى اليسار بداخل الكرت */
+    #member-modal .close-cart-btn {
+      position: absolute !important; /* يظل بداخل الكرت الصغير ولا يخرج للشاشة */
+      top: 20px !important;
+      left: 20px !important;
+      background: #000000 !important; 
+      border: none !important; 
+      width: 36px !important; 
+      height: 36px !important; 
+      border-radius: 50% !important; 
+      display: flex !important; 
+      align-items: center !important; 
+      justify-content: center !important; 
+      cursor: pointer !important; 
+      color: #ffffff !important; 
+      z-index: 10000 !important;
+      margin: 0 !important;
+    }
+
+    .close-cart-btn svg {
+      width: 20px !important; 
+      height: 20px !important;
+      stroke: #ffffff !important;
+      stroke-width: 3px !important; 
     }
 
     .close-cart-btn:hover {
@@ -493,21 +539,88 @@
       justify-content: space-between; 
       align-items: center;
       border-bottom: 2px solid #114232; 
-      padding-bottom: 10px; 
-      margin-bottom: 15px;
+      padding-bottom: 12px; 
+      margin-bottom: 10px;
     }
 
     .cart-items-list { 
       margin-bottom: 15px; 
+      padding-bottom: 10px;
     }
 
+    /* كرت المجموع الإجمالي المرتب والمتحرك (Sticky) أسفل الشاشة */
     .cart-summary { 
-      font-size: 18px; 
-      font-weight: bold; 
-      border-bottom: 1px dashed #ccc; 
-      padding-bottom: 10px; 
-      margin-bottom: 15px; 
+      font-size: 19px !important; 
+      font-weight: bold !important; 
       text-align: right; 
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      border-right: 6px solid #114232 !important; 
+      border-radius: 12px !important;
+      padding: 18px 20px !important;
+      position: -webkit-sticky !important;
+      position: sticky !important;
+      bottom: 15px !important; 
+      z-index: 9999 !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07) !important;
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    /* 🎯 توزيع وتثبيت السلة بنظام شي إن (SHEIN) للابتوب والشاشات الكبيرة */
+    @media (min-width: 769px) {
+      #cart-modal .cart-content {
+        display: grid !important;
+        grid-template-columns: 1fr 1.4fr; 
+        grid-template-rows: auto auto;
+        padding: 40px !important;
+        gap: 40px;
+      }
+
+      #cart-modal .cart-header {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      /* 👉 الجانب الأيمن الفخم: استمارة الشحن والمعلومات */
+      .checkout-form {
+        grid-column: 1 !important;
+        grid-row: 2 !important;
+        border-top: none !important;
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-top: 4px solid #114232 !important; 
+        padding: 30px 25px !important;
+        border-radius: 12px;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04); 
+        position: sticky !important;
+        top: 25px !important; 
+      }
+
+      /* 👈 الجانب الأيسر: قائمة المنتجات المطلوبة */
+      #cart-items-list {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
+        margin-bottom: 100px !important; 
+      }
+
+      /* كرت حساب المجموع المتحرك بذكاء بأسفل جانب المنتجات في اللابتوب */
+      #cart-modal .cart-summary {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
+        align-self: end !important; 
+        position: sticky !important;
+        bottom: 25px !important;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-right: 6px solid #114232 !important;
+        box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.05) !important;
+      }
     }
 
     .image-modal {
@@ -533,12 +646,15 @@
     /* 7. استمارة الشراء والاتصال (Checkout Form & Tooltip) */
     /* =================================================== */
     .checkout-form {
-      border-top: 3px solid #114232 !important;
+      border-top: 3px solid #114232;
     }
 
     .checkout-form h4, #cart-modal h4 {
       background-color: #114232 !important;
       color: #ffffff !important;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 0;
     }
 
     .checkout-form label {
@@ -548,13 +664,18 @@
 
     .checkout-form input, .checkout-form select, .checkout-form textarea {
       width: 100%; 
-      padding: 10px; 
+      padding: 11px; 
       margin-bottom: 12px;
-      border: 1px solid #114232 !important; 
+      border: 1px solid #cbd5e1 !important; 
       border-radius: 8px; 
       font-family: inherit; 
       font-size: 15px; 
       box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    
+    .checkout-form input:focus, .checkout-form select:focus, .checkout-form textarea:focus {
+      border-color: #114232 !important; 
     }
 
     .checkout-form textarea { 
@@ -571,7 +692,7 @@
     .btn-send {
       flex: 1; 
       border: none; 
-      padding: 10px 12px; 
+      padding: 12px; 
       border-radius: 8px;
       color: #fff; 
       font-weight: bold; 
@@ -642,6 +763,15 @@
     /* 8. شاشات الموبايل والاستجابة (Responsive & Mobile)  */
     /* =================================================== */
     @media (max-width: 768px) {
+      .checkout-form {
+        border-right: none !important;
+        border-top: 3px solid #114232 !important;
+        padding: 15px 0 0 0 !important;
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      
       .fixed-cart-top { 
         padding: 14px 24px; 
         font-size: 17px; 
@@ -716,15 +846,8 @@
         padding: 8px 10px; 
         font-size: 12px; 
       }
-
-      .cart-content {
-        width: 88% !important;
-        max-height: 82vh !important;
-        padding: 16px !important;
-      }
     }
 
-    /* فئات الموبايل عبر نظام الأندرويد والـ iOS */
     .mobile-device .fixed-cart-top { padding: 14px 24px; font-size: 17px; }
     .mobile-device .fixed-cart-top .cart-badge { font-size: 14px; }
     .mobile-device .copy-card-btn { padding: 14px 28px; font-size: 17px; }
@@ -736,23 +859,20 @@
     .mobile-device .contact-item { padding: 8px 10px; font-size: 12px; }
     .mobile-device .product-card h3, .mobile-device .product-title, .mobile-device .product-name { font-weight: 500 !important; }
     .mobile-device .btn-add-to-cart { display: block !important; width: 100% !important; padding: 6px 4px !important; font-size: 13px !important; font-weight: 500 !important; }
-    .mobile-device .cart-content { width: 88% !important; max-height: 82vh !important; padding: 16px !important; }
-
-    /* عند فتح الموقع من اللابتوب أو الشاشات الكبيرة */
-@media (min-width: 992px) {
-    .products-grid {
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 15px !important; /* المسافة بين الكارتات */
+   
+    @media (min-width: 992px) {
+        .products-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 15px !important; 
+        }
     }
-}
 
-/* للموبايل يظل قطعتين بصف واحد بشكل مرتب */
-@media (max-width: 768px) {
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
+    @media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
     }
-}
     
   </style>
 
@@ -775,12 +895,12 @@
 
   <div id="top-left-cart" onclick="toggleCartModal()" style="position: fixed; top: 20px; left: 20px; width: 130px; box-sizing: border-box !important; background-color: #000000; color: #ffffff; padding: 10px 12px; border-radius: 50px; z-index: 9999; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.25); font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px; direction: rtl;">
     السلة <span id="cart-count-top" style="background-color: red; color: white; border-radius: 50%; padding: 2px 8px; font-size: 12px; font-weight: bold; border: 1px solid white;">0</span>
-</div>
+  </div>
 
-<div id="scroll-to-download-btn" onclick="event.stopPropagation(); scrollToDownload();" style="position: fixed; top: 75px; left: 20px; width: 130px; box-sizing: border-box !important; background-color: #114232; color: #ffffff; padding: 8px 10px; border-radius: 20px; z-index: 9999; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold; font-size: 11px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; direction: rtl; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;">
+  <div id="scroll-to-download-btn" onclick="event.stopPropagation(); scrollToDownload();" style="position: fixed; top: 75px; left: 20px; width: 130px; box-sizing: border-box !important; background-color: #114232; color: #ffffff; padding: 8px 10px; border-radius: 20px; z-index: 9999; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold; font-size: 11px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; direction: rtl; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;">
     <span>لتحميل التطبيق</span>
     <span>للأندرويد والأبل</span>
-</div>
+  </div>
 
   <header style="text-align: center; padding: 20px 10px;">
     <h1 style="color: #000000; margin: 0 0 8px 0; font-size: 28px; font-weight: bold;">منتجات DXN العضوية</h1>
@@ -803,9 +923,9 @@
     <div id="loading" class="loading" style="text-align: center; font-weight: bold; font-size: 16px; color: #114232;">
         جاري إظهار المنتجات...
     </div>
-</div>
+  </div>
 
-<div id="products-container" class="products-grid" style="display: none;"></div>
+  <div id="products-container" class="products-grid" style="display: none;"></div>
 
   <div class="floating-contact-bar">
     <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
@@ -853,7 +973,7 @@
       </div>
       
       <div style="font-size: 13px; color: #cc3333; margin: 5px 0 12px 0; line-height: 1.5; background: #fff5f5; padding: 10px; border-radius: 6px; border: 1px solid #ffe3e3; text-align: right; direction: rtl;">
-        ⚠️ يجب التأكد من ظهور هذا الاسم لدى موظف المركز عند الشراء لضمان الخصم <br>
+        ⚠️ يجب التأكد من ظهور this الاسم لدى موظف المركز عند الشراء لضمان الخصم <br>
         <strong style="display: block; text-align: center; margin-top: 5px; font-size: 15px; color: #114232;">BLAL JAMAL JASEEM</strong>
       </div>
 
@@ -883,12 +1003,12 @@
         <strong>الإجمالي: <span id="cart-total-price">0</span> دينار</strong>
       </div>
 
-     <div class="checkout-form">
-    <div style="background: #fff8db; border-right: 4px solid #f39c12; padding: 12px; margin-bottom: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; color: #b76e00; text-align: right; line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-      سعر التوصيل: عادة يكون 3,000 للمناطق الداخلية، و 5,000 أو 6,000 للمناطق الخارجية.
-      <br>
-      مدة التوصيل: عادة خلال 72 ساعة.
-    </div>
+      <div class="checkout-form">
+        <div style="background: #fff8db; border-right: 4px solid #f39c12; padding: 12px; margin-bottom: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; color: #b76e00; text-align: right; line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+          سعر التوصيل: عادة يكون 3,000 للمناطق الداخلية، و 5,000 أو 6,000 للمناطق الخارجية.
+          <br>
+          مدة التوصيل: عادة خلال 72 ساعة.
+        </div>
 
         <div style="background: #f9f9f9; border-right: 4px solid #114232; padding: 12px; margin-bottom: 15px; border-radius: 6px; font-size: 14px; color: #333; text-align: right; line-height: 1.5;">
           ◀️ <strong>ملاحظة الشحن:</strong> التوصيل متوفر لكافة محافظات العراق لباب البيت.<br>
@@ -1000,14 +1120,12 @@
     window.onload = function() {
       const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPq5PlIvetAueCo5ugjEYIQzLeoBuQMh83n6R2R2-jrVyYt-3ooMKBOTaJWCfjdkMe/exec";
 
-      // 1. فحص الكاش وعرض المنتجات فوراً لمنع الوميض
       const cachedProducts = localStorage.getItem("dxn_products_cache");
       if (cachedProducts) {
         allProducts = JSON.parse(cachedProducts);
         renderGrid(allProducts);
       }
 
-      // 2. جلب البيانات من السيرفر بالخلفية للتحديث
       fetch(googleWebAppUrl)
         .then(response => {
           if (!response.ok) throw new Error("فشل الاتصال بسيرفر البيانات");
@@ -1030,13 +1148,9 @@
         });
     };
 
-    // مستمع الـ DOMContentLoaded الموحد والذكي للعمليات المتنوعة
     document.addEventListener("DOMContentLoaded", function() {
-      // أ- تشغيل السلة واسترجاع البيانات المحفوظة
       initCart();
 
-      // ب- فحص إذا كان الزائر بداخل الـ APK الخاص بنا لإخفاء أزرار التحميل
-      // غيّرنا 'wv' إلى بصمة تطبيقك الخاصة لمنع التداخل مع الإنستغرام
      var isInsideApk = navigator.userAgent.includes('MyApp_AlRafidain_V1');
 
      if (isInsideApk) {
@@ -1045,16 +1159,14 @@
     
         if (topScrollBtn) topScrollBtn.style.display = "none";
         if (bottomDownloadSection) bottomDownloadSection.style.display = "none";
-        } else {
-     // إذا فتح من أي متصفح ثاني (إنستا، كروم، سفاري)، نضمن أن الأزرار تظهر بشكل طبيعي
-          var topScrollBtn = document.getElementById("scroll-to-download-btn");
-       var bottomDownloadSection = document.getElementById("download-section-wrapper");
+     } else {
+        var topScrollBtn = document.getElementById("scroll-to-download-btn");
+        var bottomDownloadSection = document.getElementById("download-section-wrapper");
     
-       if (topScrollBtn) topScrollBtn.style.display = "block"; 
-       if (bottomDownloadSection) bottomDownloadSection.style.display = "block"; 
-    }
+        if (topScrollBtn) topScrollBtn.style.display = "block"; 
+        if (bottomDownloadSection) bottomDownloadSection.style.display = "block"; 
+     }
 
-      // ج- إدارة زر العودة للأعلى (Scroll to Top) الفخم الذكي
       const scrollToTopBtn = document.getElementById("scrollToTopBtn");
       if (scrollToTopBtn) {
           window.addEventListener("scroll", function () {
@@ -1080,7 +1192,6 @@
     function initCart() {
         const expiryTime = localStorage.getItem('cart_expiry_time');
         
-        // التحقق من صلاحية الـ 14 يوم للسلة
         if (expiryTime && Date.now() > parseInt(expiryTime)) {
             cart = []; 
             localStorage.removeItem('dxn_products_cart'); 
@@ -1092,7 +1203,6 @@
             }
         }
         
-        // تعبئة حقول الشحن تلقائياً من الذاكرة المحلية
         if (localStorage.getItem("saved_cust_name")) {
             document.getElementById("cust-name").value = localStorage.getItem("saved_cust_name");
         }
@@ -1170,7 +1280,7 @@
         <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
           <button onclick="addToCart('${safeName}', ${rawPrice}, ${productPV})" 
                   class="btn-add-to-cart" 
-                  style="background-color: #114232 !important; flex: 1; margin: 0 !important; margin-top: 0 !important; transform: none !important; position: relative !important; top: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; height: 46px !important;">
+                  style="background-color: #114232 !important; flex: 1; margin: 0 !important; margin-top: 0 !important; transform: none !important; position: relative !important; top: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; font-pointer: cursor; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; height: 46px !important;">
             إضافة للسلة
           </button>
                   
@@ -1279,7 +1389,6 @@
       }
     }
 
-    // مراقبة الهش والرجوع الذكي بالهاتف لإغلاق المودالات وإلغاء قفل السكرول
     window.addEventListener('hashchange', function() {
       var cartModal = document.getElementById("cart-modal");
       var memberModal = document.getElementById("member-modal");
@@ -1325,6 +1434,18 @@
       const pvAlertContainer = document.getElementById("smart-pv-alert");
 
       listContainer.innerHTML = "";
+
+      // 🟢 إضافة زر حذف السلة ديناميكياً هنا (يظهر فقط إذا كانت السلة تحتوي على منتجات)
+      if (cart.length > 0) {
+        listContainer.innerHTML = `
+          <div style="text-align: left; margin-bottom: 20px; width: 100%; display: flex; justify-content: flex-end;">
+            <button onclick="clearCart()" style="background: #fff5f5; color: #cc3333; border: 1px solid #ffe3e3; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px;" onmouseover="this.style.background='#ffe3e3'" onmouseout="this.style.background='#fff5f5'">
+              🗑️ حذف السلة بالكامل
+            </button>
+          </div>
+        `;
+      }
+      
       let total = 0;
       let totalItems = 0;
       let totalPV = 0;
@@ -1366,7 +1487,6 @@
 
       localStorage.setItem('dxn_products_cart', JSON.stringify(cart));
 
-      // تحديث توقيت صلاحية العداد (14 يوم) عند كل عملية تعديل حقيقية
       if (updateTimer && cart.length > 0) {
           const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
           localStorage.setItem('cart_expiry_time', Date.now() + FOURTEEN_DAYS_MS);
@@ -1375,34 +1495,16 @@
       var topLeftCartCount = document.getElementById('cart-count-top');
       if (topLeftCartCount) topLeftCartCount.innerText = totalItems;
 
-      /*
-      // منطق تنبيه الـ 130 نقطة للتوصيل المجاني المحدث
-      if (totalPV > 0 && totalPV < 130) {
-        let remainingPV = 130 - totalPV;
-        pvAlertContainer.style.display = "block";
-        pvAlertContainer.style.background = "#fff3cd";
-        pvAlertContainer.style.color = "#856404";
-        pvAlertContainer.style.padding = "10px";
-        pvAlertContainer.style.borderRadius = "6px";
-        pvAlertContainer.style.border = "1px solid #ffeeba";
-        pvAlertContainer.style.marginBottom = "10px";
-        pvAlertContainer.innerHTML = `⭐ مجموع نقاطك الحالي: <strong>${totalPV} PV</strong><br>💥 متبقي لك <strong>${remainingPV} PV</strong> فقط لتصل إلى هدف 130 نقطة وتحصل على التوصيل المجاني! 🚚`;
-      } else if (totalPV >= 130) {
-        pvAlertContainer.style.display = "block";
-        pvAlertContainer.style.background = "#d4edda";
-        pvAlertContainer.style.color = "#155724";
-        pvAlertContainer.style.padding = "10px";
-        pvAlertContainer.style.borderRadius = "6px";
-        pvAlertContainer.style.border = "1px solid #c3e6cb";
-        pvAlertContainer.style.marginBottom = "10px";
-        pvAlertContainer.innerHTML = `🎉 مبروك! وصلت إلى هدف 130 نقطة وحصلت على التوصيل المجاني لطلبك! 🚚 (مجموعك الحالي: <strong>${totalPV} PV</strong>)`;
-      } else {
-        pvAlertContainer.style.display = "none";
-      }
-      */
       pvAlertContainer.style.display = "none";
-
       totalContainer.innerText = total.toLocaleString();
+    }
+
+    // 🔴 دالة حذف السلة بالكامل الجديدة مع تنبيه تأكيدي للزبون
+    function clearCart() {
+      if (confirm("هل أنت متأكد من رغبتك في إفراغ السلة وحذف جميع المنتجات المضافة؟")) {
+        cart = []; 
+        updateCartUI(); 
+      }
     }
 
     function changeQuantity(name, amount) {
@@ -1460,17 +1562,15 @@
         orderDetails += (index + 1) + ". " + item.name + " (العدد: " + item.quantity + ") -> " + itemTotal.toLocaleString() + " د.ع\n";
       });
 
-    //  orderDetails += "\n• *إجمالي نقاط الطلب:* " + totalSummaryPV + " PV";
-
       if (totalSummaryPV >= 130) {
-        orderDetails += "\n• *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) ";
+        orderDetails += "\n• *حالة التوصيل:* مجاني 🎉";
       } else {
         orderDetails += "\n• *حالة التوصيل:* غير مجاني (يُحدد السعر حسب عنوانك) ";
       }
 
       orderDetails += "\n• *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
-     var fullMessage = orderTitle + customerInfo + orderDetails;
-     var encodedMessage = encodeURIComponent(fullMessage);
+      var fullMessage = orderTitle + customerInfo + orderDetails;
+      var encodedMessage = encodeURIComponent(fullMessage);
 
       if (typeof AppInventor !== 'undefined') {
           if (platform === 'whatsapp') {
@@ -1529,11 +1629,11 @@
                 text: promoMessage
             }).catch(err => console.log("خطأ في المشاركة:", err));
         } else {
-            // استدعاء القائمة المخصصة للإنستغرام بدلاً من فتح الواتساب فوراً
             openCustomSharePopup(promoMessage);
         }
     }
-}
+   }
+
    function shareProduct(productName, productBenefit) {
     var storeUrl = window.location.origin + window.location.pathname; 
     var fullShareMessage = "• *متجر DXN للمنتجات الصحية* \n\n" +
@@ -1550,40 +1650,38 @@
                     text: fullShareMessage
                 }).catch(err => console.log(err));
             } else {
-                // استدعاء القائمة المخصصة للإنستغرام عند حظر النظام الداخلي
                 openCustomSharePopup(fullShareMessage);
             }
         }
     }
 
     function openCustomSharePopup(message) {
-    window.pendingShareMessage = message;
-    
-    let oldPopup = document.getElementById('custom-share-popup');
-    if (oldPopup) oldPopup.remove();
+      window.pendingShareMessage = message;
+      
+      let oldPopup = document.getElementById('custom-share-popup');
+      if (oldPopup) oldPopup.remove();
 
-    let overlay = document.createElement('div');
-    overlay.id = 'custom-share-popup';
-    overlay.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:100000; display:flex; justify-content:center; align-items:center; direction:rtl;';
+      let overlay = document.createElement('div');
+      overlay.id = 'custom-share-popup';
+      overlay.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:100000; display:flex; justify-content:center; align-items:center; direction:rtl;';
 
-    let box = document.createElement('div');
-    box.style = 'background:white; padding:20px; border-radius:12px; width:85%; max-width:340px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.2); font-family:sans-serif;';
-    
-    box.innerHTML = `
-        <h4 style="margin:0 0 10px 0; color:#114232; font-size:16px; font-weight:bold;">📢 خيارات المشاركة المتاحة</h4>
-        <p style="margin:0 0 20px 0; color:#666; font-size:13px;">بسبب قيود تطبيق الإنستغرام، يرجى اختيار المنصة المفضلة لديك:</p>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <button onclick="window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(window.pendingShareMessage), '_blank'); document.getElementById('custom-share-popup').remove();" style="background:#25D366; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">🟢 مشاركة عبر واتساب</button>
-            <button onclick="window.open('https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(window.pendingShareMessage), '_blank'); document.getElementById('custom-share-popup').remove();" style="background:#24A1DE; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">🔵 مشاركة عبر تليجرام</button>
-            <button onclick="navigator.clipboard.writeText(window.pendingShareMessage); alert('📋 تم نسخ النص والرابط بنجاح! يمكنك الآن لصقه ومشاركته بأي تطبيق آخر.'); document.getElementById('custom-share-popup').remove();" style="background:#f5f5f5; color:#333; border:1px solid #ccc; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">📋 نسخ الرابط والنص بالكامل</button>
-        </div>
-        <button onclick="document.getElementById('custom-share-popup').remove();" style="margin-top:15px; background:none; border:none; color:#cc3333; font-weight:bold; cursor:pointer; font-size:14px;">إلغاء</button>
-    `;
-    
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-}
-    
+      let box = document.createElement('div');
+      box.style = 'background:white; padding:20px; border-radius:12px; width:85%; max-width:340px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.2); font-family:sans-serif;';
+      
+      box.innerHTML = `
+          <h4 style="margin:0 0 10px 0; color:#114232; font-size:16px; font-weight:bold;">📢 خيارات المشاركة المتاحة</h4>
+          <p style="margin:0 0 20px 0; color:#666; font-size:13px;">بسبب قيود تطبيق الإنستغرام، يرجى اختيار المنصة المفضلة لديك:</p>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+              <button onclick="window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(window.pendingShareMessage), '_blank'); document.getElementById('custom-share-popup').remove();" style="background:#25D366; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">🟢 مشاركة عبر واتساب</button>
+              <button onclick="window.open('https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(window.pendingShareMessage), '_blank'); document.getElementById('custom-share-popup').remove();" style="background:#24A1DE; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">🔵 مشاركة عبر تليجرام</button>
+              <button onclick="navigator.clipboard.writeText(window.pendingShareMessage); alert('📋 تم نسخ النص والرابط بنجاح! يمكنك الآن لصقه ومشاركته بأي تطبيق آخر.'); document.getElementById('custom-share-popup').remove();" style="background:#f5f5f5; color:#333; border:1px solid #ccc; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">📋 نسخ الرابط والنص بالكامل</button>
+          </div>
+          <button onclick="document.getElementById('custom-share-popup').remove();" style="margin-top:15px; background:none; border:none; color:#cc3333; font-weight:bold; cursor:pointer; font-size:14px;">إلغاء</button>
+      `;
+      
+      overlay.appendChild(box);
+      document.body.appendChild(overlay);
+    }
   </script>
 
   <div id="update-banner" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; background-color: #114232; color: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; direction: rtl; font-family: sans-serif;">
@@ -1596,38 +1694,30 @@
             <button onclick="dismissUpdateBanner()" style="background: none; border: none; color: white; cursor: pointer; font-size: 14px; font-weight: bold;">✕</button>
         </div>
     </div>
-</div>
+  </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. تحديد رقم إصدار التحديث الحالي
-    const CURRENT_UPDATE_VERSION = "v2"; 
-    
-    // 2. التأكد هل المستخدم داخل التطبيق (عبر الرابط المميز)
-    const urlParams = new URLSearchParams(window.location.search);
-    const isApp = urlParams.get('platform') === 'app';
-    
-    // 3. التعديل هنا: استخدام sessionStorage بدلاً من localStorage
-    const hasSeenUpdate = sessionStorage.getItem("app_update_seen_" + CURRENT_UPDATE_VERSION);
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const CURRENT_UPDATE_VERSION = "v2"; 
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const isApp = urlParams.get('platform') === 'app';
+      
+      const hasSeenUpdate = sessionStorage.getItem("app_update_seen_" + CURRENT_UPDATE_VERSION);
 
-    // إذا كان داخل التطبيق ولم يشاهد التحديث في هذه الجلسة، تظهر له الرسالة
-    if (isApp && !hasSeenUpdate) {
-       // document.getElementById("update-banner").style.display = "block";
-    }
-    
-    // دالة إغلاق التنبيه وحفظ الخيار للجلسة الحالية فقط
-    window.dismissUpdateBanner = function() {
-        // التعديل هنا أيضاً: sessionStorage
-        sessionStorage.setItem("app_update_seen_" + CURRENT_UPDATE_VERSION, "true");
-        document.getElementById("update-banner").style.display = "none";
-    }
+      if (isApp && !hasSeenUpdate) {
+         // document.getElementById("update-banner").style.display = "block";
+      }
+      
+      window.dismissUpdateBanner = function() {
+          sessionStorage.setItem("app_update_seen_" + CURRENT_UPDATE_VERSION, "true");
+          document.getElementById("update-banner").style.display = "none";
+      }
 
-    // إذا ضغط على زر التحديث، يتم أيضاً إخفاء التنبيه
-    document.getElementById("download-update-btn").addEventListener("click", function() {
-        dismissUpdateBanner();
-    });
-});
-</script>
-  
+      document.getElementById("download-update-btn").addEventListener("click", function() {
+          dismissUpdateBanner();
+      });
+  });
+  </script>
 </body>
 </html>
