@@ -349,6 +349,7 @@
     }
 
     /* 🟢 شريط الـ Footer العائم الجديد الذي يحتوي على قائمة "للاستفسار" بسهم */
+    /* 🟢 شريط الـ Footer العائم الجديد باللون الرصاصي الغامق الفخم والواضح جداً */
     .floating-contact-bar {
       position: fixed;
       bottom: 20px;
@@ -357,21 +358,22 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: rgba(255, 255, 255, 0.98);
+      background: rgba(55, 65, 81, 0.98) !important; /* 🌟 رصاصي غامق (Charcoal) ممتاز للتناسق */
       padding: 10px 16px;
       border-radius: 16px;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.25);
       z-index: 999;
       width: 420px; 
       box-sizing: border-box;
       transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     #inquiry-toggle-btn {
       width: 100%;
       text-align: center;
       font-weight: bold;
-      color: #114232;
+      color: #ffffff !important; /* 🌟 نص أبيض ناصع ليبرز فوق الرصاصي الغامق */
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -574,9 +576,9 @@
       font-size: 19px !important; 
       font-weight: bold !important; 
       text-align: right; 
-      background: #ffffff !important;
+      background: #f1f5f9 !important; /* 🌟 رصاصي فاتح مريح وعالي الوضوح بداخل السلة */
       border: 1px solid #cbd5e1 !important;
-      border-right: 6px solid #114232 !important; 
+      border-right: 6px solid #114232 !important; /* الخط الجانبي الأخضر المميز للمتجر */
       border-radius: 12px !important;
       padding: 18px 20px !important;
       position: -webkit-sticky !important;
@@ -589,6 +591,7 @@
       align-items: center;
       box-sizing: border-box;
       width: 100%;
+      color: #114232 !important; /* 🌟 جعل النص باللون الأخضر الغامق لزيادة التناسق والوضوح */
     }
 
     @media (min-width: 769px) {
@@ -633,10 +636,11 @@
         align-self: end !important; 
         position: sticky !important;
         bottom: 25px !important;
-        background: #ffffff !important;
+        background: #f1f5f9 !important; /* 🌟 رصاصي فاتح منسق */
         border: 1px solid #e2e8f0 !important;
         border-right: 6px solid #114232 !important;
         box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.05) !important;
+        color: #114232 !important;
       }
     }
 
@@ -1600,7 +1604,7 @@
      })
      .then(() => {
        // يتم تنفيذ كود النجاح فوراً عند إرسال البيانات لسيرفر غوغل بنجاح
-       alert("🎉 تم تأكيد واستلام طلبك بنجاح! سيتواصل معك القسم المختص فوراً لتجهيز الشحن.");
+       alert("🎉 تم تأكيد واستلام طلبك بنجاح.");
        cart = []; 
        updateCartUI();
        toggleCartModal(); 
