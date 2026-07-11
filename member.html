@@ -1776,22 +1776,50 @@
       });
     }
 
+    // 🟢 دالة نسخ كود التخفيض المحدثة والمحمية ضد القيود البرمجية داخل الـ WebView
     function copyMemberID() {
       var idNum = document.getElementById("member-id-number").innerText;
-      navigator.clipboard.writeText(idNum);
 
       var btn = document.querySelector(".copy-card-btn");
       var originalText = btn.innerHTML;
 
-      btn.innerHTML = "تم النسخ بنجاح! ✓";
-      btn.style.background = "#114232"; 
-      btn.style.color = "#ffffff";
+      // دالة تغيير حالة وشكل الزر عند نجاح العملية المضمونة
+      function successState() {
+        btn.innerHTML = "تم النسخ بنجاح! ✓";
+        btn.style.background = "#114232"; 
+        btn.style.color = "#ffffff";
 
-      setTimeout(function() {
-        btn.innerHTML = originalText;
-        btn.style.background = "#000000"; 
-        btn.style.color = "#ffffff";      
-      }, 2000);
+        setTimeout(function() {
+          btn.innerHTML = originalText;
+          btn.style.background = "#000000"; 
+          btn.style.color = "#ffffff";      
+        }, 2000);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(idNum).then(successState).catch(() => {
+          fallbackCopyMemberID(idNum, successState);
+        });
+      } else {
+        fallbackCopyMemberID(idNum, successState);
+      }
+    }
+
+    // الدالة الاحتياطية لنسخ كود التخفيض لضمان عمله داخل أي تطبيق موبايل
+    function fallbackCopyMemberID(textToCopy, successCallback) {
+      var textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        successCallback();
+      } catch (err) {
+        showCustomAlert("❌ عذراً، جهازك يمنع النسخ التلقائي، يرجى نسخه يدوياً.");
+      }
+      document.body.removeChild(textArea);
     }
 
     function scrollToDownload() {
