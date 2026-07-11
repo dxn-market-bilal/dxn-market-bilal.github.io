@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dxn-member-store-v10'; 
+const CACHE_NAME = 'dxn-member-store-v11'; 
 const assets = [
   './member.html',
   './member-manifest.json', 
