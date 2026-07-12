@@ -1753,92 +1753,121 @@
 
     // 🟢 دالة إرسال الطلبات المباشرة المحدثة بـ نافذة التأكيد والتحميل المشفرة المخصصة بالمنتصف
     function sendOrderToTelegramBot() {
-      var name = document.getElementById("cust-name").value.trim();
-      var phone = document.getElementById("cust-phone").value.trim();
-      var governorate = document.getElementById("cust-governorate").value;
-      var address = document.getElementById("cust-address").value.trim();
-      var notes = document.getElementById("cust-notes").value.trim();
+  var name = document.getElementById("cust-name").value.trim();
+  var phone = document.getElementById("cust-phone").value.trim();
+  var governorate = document.getElementById("cust-governorate").value;
+  var address = document.getElementById("cust-address").value.trim();
+  var notes = document.getElementById("cust-notes").value.trim();
 
-      if (!name || !phone || !governorate || !address) {
-        showCustomAlert("⚠️ يرجى ملء الحقول الأساسية: الاسم، الهاتف، المحافظة، والعنوان.");
-        return;
-      }
+  if (!name || !phone || !governorate || !address) {
+    showCustomAlert("⚠️ يرجى ملء الحقول الأساسية: الاسم، الهاتف، المحافظة، والعنوان.");
+    return;
+  }
 
-      if (cart.length === 0) {
-        showCustomAlert("⚠️ سلتك فارغة! قُم بإضافة منتجات أولاً قبل إرسال الطلب.");
-        return;
-      }
+  if (cart.length === 0) {
+    showCustomAlert("⚠️ سلتك فارغة! قُم بإضافة منتجات أولاً قبل إرسال الطلب.");
+    return;
+  }
 
-      // 1️⃣ ظهور زر التأكيد المخصص بالمنتصف بناءً على طلبك
-      showCustomConfirm("هل أنت متأكد من الطلب؟", function() {
-        
-        // 2️⃣ إظهار شاشة التحميل الدوارة فوراً بعد التأكيد
-        showLoading(true);
+  // 1️⃣ ظهور زر التأكيد المخصص بالمنتصف
+  showCustomConfirm("هل أنت متأكد من الطلب؟", function() {
+    
+    // 2️⃣ إظهار شاشة التحميل الدوارة فوراً بعد التأكيد
+    showLoading(true);
 
-        // حفظ مؤقت لبيانات الزبون للسهولة
-        localStorage.setItem("saved_cust_name", name);
-        localStorage.setItem("saved_cust_phone", phone);
-        localStorage.setItem("saved_cust_governorate", governorate);
-        localStorage.setItem("saved_cust_address", address);
+    // لقط العضو الحالي لضمان عزل الحفظ التلقائي بالمتصفح
+    let currentMember = (typeof window.memberKey !== 'undefined') ? window.memberKey : 'main';
 
-        // صياغة النص بـ Markdown للتليجرام
-        var fullMessage = "🚨 *طلب شراء جديد من متجر الأعضاء* 🚨\n\n" +
-                          "👤 *الزبون:* " + name + "\n" +
-                          "📞 *الهاتف:* " + phone + "\n" +
-                          "📍 *المحافظة:* " + governorate + "\n" +
-                          "🏠 *العنوان:* " + address + "\n" +
-                          "📝 *ملاحظات:* " + (notes ? notes : "لا يوجد") + "\n\n" +
-                          "🛒 *المنتجات المطلوبة:*\n";
+    // ✨ تصحيح الأمان: الحفظ مؤقتاً لكل عضو بوحده علمود ما تتداخل البيانات بالمتصفح
+    localStorage.setItem("saved_cust_name_" + currentMember, name);
+    localStorage.setItem("saved_cust_phone_" + currentMember, phone);
+    localStorage.setItem("saved_cust_governorate_" + currentMember, governorate);
+    localStorage.setItem("saved_cust_address_" + currentMember, address);
 
-        var totalSummaryPrice = 0;
-        var totalSummaryPV = 0;
+    // 📄 صياغة النص بـ Markdown للتليجرام (نفس كودك بالظبط)
+    var fullMessage = "🚨 *طلب شراء جديد من متجر الأعضاء* 🚨\n\n" +
+                      "👤 *الزبون:* " + name + "\n" +
+                      "📞 *الهاتف:* " + phone + "\n" +
+                      "📍 *المحافظة:* " + governorate + "\n" +
+                      "🏠 *العنوان:* " + address + "\n" +
+                      "📝 *ملاحظات:* " + (notes ? notes : "لا يوجد") + "\n\n" +
+                      "🛒 *المنتجات المطلوبة:*\n";
 
-        cart.forEach((item, index) => {
-          var itemTotal = item.price * item.quantity;
-          totalSummaryPrice += itemTotal;
-          totalSummaryPV += (item.pv || 0) * item.quantity;
-          fullMessage += (index + 1) + ". " + item.name + " (العدد: " + item.quantity + ") -> " + itemTotal.toLocaleString() + " د.ع\n";
-        });
+    var totalSummaryPrice = 0;
+    var totalSummaryPV = 0;
+    var productsTextForSheet = ""; // ✨ إضافة ذكية: لتجميع المنتجات بخانة واحدة للإكسل الجديد
 
-        if (totalSummaryPV >= 130) {
-          fullMessage += "\n🎁 *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) 🎉";
-        } else {
-          fullMessage += "\n🚚 *حالة التوصيل:* غير مجاني (يُحدد حسب العنوان)";
-        }
+    cart.forEach((item, index) => {
+      var itemTotal = item.price * item.quantity;
+      totalSummaryPrice += itemTotal;
+      totalSummaryPV += (item.pv || 0) * item.quantity;
+      fullMessage += (index + 1) + ". " + item.name + " (العدد: " + item.quantity + ") -> " + itemTotal.toLocaleString() + " د.ع\n";
+      
+      // بناء نص المنتجات المرتب للجدول
+      productsTextForSheet += item.name + " (العدد: " + item.quantity + ") | ";
+    });
 
-        fullMessage += "\n\n💰 *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
-
-        // 🌐 رابط غوغل سكربت المأمن
-        var webAppUrl = "https://script.google.com/macros/s/AKfycby70ldBIzljMDCKuhSvKjbkM6iXaeXshA9j3zgVVaxJDV8sLAXD_dU9bCWlMe4adeIy/exec";
-
-        // إرسال البيانات إلى وسيط غوغل
-       fetch(webAppUrl, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify({
-        message: fullMessage,
-        member: typeof memberKey !== 'undefined' ? memberKey : "main" // 👈 يرسل الاسم المجلد السري لغوغل تلقائياً
-         })
-      })
-        .then(() => {
-          // إخفاء شاشة التحميل فور اكتمال الإرسال
-          showLoading(false);
-          
-          // إظهار إشعار النجاح بمنتصف الشاشة مع زر "حسناً"
-          showCustomAlert("تم تأكيد واستلام طلبك بنجاح.", function() {
-            cart = []; 
-            updateCartUI();
-            toggleCartModal(); 
-          });
-        })
-        .catch(err => {
-          // إخفاء شاشة التحميل عند حدوث أي خطأ بالشبكة
-          showLoading(false);
-          console.error(err);
-          showCustomAlert("❌ فشل الاتصال بالسيرفر، تأكد من جودة إنترنت الهاتف.");
-        });
-      });
+    var deliveryStatus = "";
+    if (totalSummaryPV >= 130) {
+      fullMessage += "\n🎁 *حالة التوصيل:* مجاني (عرض الـ 130 نقطة) 🎉";
+      deliveryStatus = "مجاني (عرض 130 نقطة)";
+    } else {
+      fullMessage += "\n🚚 *حالة التوصيل:* غير مجاني (يُحدد حسب العنوان)";
+      deliveryStatus = "يحدد حسب العنوان";
     }
+
+    fullMessage += "\n\n💰 *الحساب الإجمالي:* " + totalSummaryPrice.toLocaleString() + " د.ع";
+
+    // 🌐 الرابط الأول: غوغل سكربت الخاص بالتليجرام (رابطك المأمن الحالي نفسه)
+    var telegramWebAppUrl = "https://script.google.com/macros/s/AKfycby70ldBIzljMDCKuhSvKjbkM6iXaeXshA9j3zgVVaxJDV8sLAXD_dU9bCWlMe4adeIy/exec";
+
+    // 🌐 الرابط الثاني: ⚠️ حط هنا رابط الويب أب الجديد اللّي راح تطلعه من شيت الطلبيات الجديد
+    var ordersWebAppUrl = "https://script.google.com/macros/s/AKfycbxlaH6qJJ4YTsjxAa9JXMdTdjJAZbNoTGDaXXQ-WKQtLno-2ViSnpYoeIblhX6c5bGlow/exec";
+
+    // ✨ الإرسال المزدوج المتوازي للتليجرام وللإكسل بنفس اللحظة بأعلى كفاءة
+    var telegramPromise = fetch(telegramWebAppUrl, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify({ message: fullMessage, member: currentMember })
+    });
+
+    var excelPromise = fetch(ordersWebAppUrl, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        governorate: governorate,
+        address: address,
+        notes: notes ? notes : "لا يوجد",
+        products: productsTextForSheet,
+        totalPrice: totalSummaryPrice,
+        totalPV: totalSummaryPV,
+        delivery: deliveryStatus,
+        member: currentMember
+      })
+    });
+
+    // الانتظار حتى اكتمال العمليتين بنجاح
+    Promise.all([telegramPromise, excelPromise])
+      .then(() => {
+        // إخفاء شاشة التحميل فور اكتمال الإرسال
+        showLoading(false);
+        
+        // إظهار إشعار النجاح بمنتصف الشاشة (نفس كودك بالظبط)
+        showCustomAlert("تم تأكيد واستلام طلبك بنجاح.", function() {
+          cart = []; 
+          updateCartUI();
+          toggleCartModal(); 
+        });
+      })
+      .catch(err => {
+        showLoading(false);
+        console.error(err);
+        showCustomAlert("❌ فشل الاتصال بالسيرفر، تأكد من جودة إنترنت الهاتف.");
+      });
+  });
+}
 
     // 🟢 دالة نسخ كود التخفيض المحدثة والمحمية ضد القيود البرمجية داخل الـ WebView
     function copyMemberID() {
