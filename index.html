@@ -1432,32 +1432,32 @@
         }
     }
     
-    // 3️⃣ قراءة معلومات الزبون إذا كانت مخزنة سابقاً وعرضها بالحقول فوراً
-    if (localStorage.getItem("saved_cust_name")) {
-        document.getElementById("cust-name").value = localStorage.getItem("saved_cust_name");
+    // 3️⃣ 🌟 عزل معلومات التوصيل لكل عضو تلقائياً علمود ما تتداخل بين المواقع
+    if (localStorage.getItem("saved_cust_name_" + currentMember)) {
+        document.getElementById("cust-name").value = localStorage.getItem("saved_cust_name_" + currentMember);
     }
-    if (localStorage.getItem("saved_cust_phone")) {
-        document.getElementById("cust-phone").value = localStorage.getItem("saved_cust_phone");
+    if (localStorage.getItem("saved_cust_phone_" + currentMember)) {
+        document.getElementById("cust-phone").value = localStorage.getItem("saved_cust_phone_" + currentMember);
     }
-    if (localStorage.getItem("saved_cust_address")) {
-        document.getElementById("cust-address").value = localStorage.getItem("saved_cust_address");
+    if (localStorage.getItem("saved_cust_address_" + currentMember)) {
+        document.getElementById("cust-address").value = localStorage.getItem("saved_cust_address_" + currentMember);
     }
-    if (localStorage.getItem("saved_cust_governorate")) {
-        document.getElementById("cust-governorate").value = localStorage.getItem("saved_cust_governorate");
+    if (localStorage.getItem("saved_cust_governorate_" + currentMember)) {
+        document.getElementById("cust-governorate").value = localStorage.getItem("saved_cust_governorate_" + currentMember);
     }
 
-    // ✨ الحركة السحرية: الحفظ التلقائي الفوري بذاكرة الهاتف بمجرد ما الزبون يكتب أو يختار المحافظة
+    // 4️⃣ الحفظ الفوري بأسماء مفاتيح مخصصة لكل عضو
     document.getElementById("cust-name").addEventListener("input", function() {
-        localStorage.setItem("saved_cust_name", this.value.trim());
+        localStorage.setItem("saved_cust_name_" + currentMember, this.value.trim());
     });
     document.getElementById("cust-phone").addEventListener("input", function() {
-        localStorage.setItem("saved_cust_phone", this.value.trim());
+        localStorage.setItem("saved_cust_phone_" + currentMember, this.value.trim());
     });
     document.getElementById("cust-address").addEventListener("input", function() {
-        localStorage.setItem("saved_cust_address", this.value.trim());
+        localStorage.setItem("saved_cust_address_" + currentMember, this.value.trim());
     });
     document.getElementById("cust-governorate").addEventListener("change", function() {
-        localStorage.setItem("saved_cust_governorate", this.value);
+        localStorage.setItem("saved_cust_governorate_" + currentMember, this.value);
     });
     
     updateCartUI(false); 
