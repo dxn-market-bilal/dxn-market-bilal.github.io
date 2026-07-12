@@ -1256,6 +1256,11 @@
     let cart = []; 
 
     window.onload = function() {
+  // 🌟 الحل السحري: تنظيف شريط العنوان فوراً عند إعادة التشغيل وإزالة أي هاش (#) بدون تخريب رابط الأعضاء
+  if (window.location.hash) {
+    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+  }
+
   const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPq5PlIvetAueCo5ugjEYIQzLeoBuQMh83n6R2R2-jrVyYt-3ooMKBOTaJWCfjdkMe/exec";
 
   const cachedProducts = localStorage.getItem("dxn_products_cache");
@@ -1269,7 +1274,7 @@
     document.querySelectorAll('.main-site-only').forEach(el => el.style.display = 'none');
   }
 
-  // 🌟 لقط اسم العضو المفتوح بالظبط (مثلاً afnan_nabeel)، وإذا ماكو يعني الموقع الرئيسي مالتك (main)
+  // لقط اسم العضو المفتوح بالظبط (مثلاً afnan_nabeel)، وإذا ماكو يعني الموقع الرئيسي مالتك (main)
   let currentMember = (typeof window.memberKey !== 'undefined') ? window.memberKey : 'main';
   let finalFetchUrl = googleWebAppUrl + "?memberKey=" + currentMember;
 
