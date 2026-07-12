@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>متجر منتجات DXN</title>
+  <script>
+    // 1️⃣ معلومات العضو الجديد
+    const memberId = "830183051"; 
+    const memberName = "afnan nabeelll"; 
+    const memberKey = "afnan_nabeel"; // 👈 المعرف السري المربوط بغوغل سكربت
+
+    // 2️⃣ جلب ملفك الرئيسي وتعديله ديناميكياً قبل العرض
+    fetch('../member.html')
+      .then(response => response.text())
+      .then(html => {
+        // الخروج برة المجلد لسحب الصور والملفات المشتركة
+        let updatedHtml = html.replace('<head>', '<head><base href="../">');
+        
+        // تبديل رقم العضوية والاسم
+        updatedHtml = updatedHtml.replace('828119655', memberId);
+        updatedHtml = updatedHtml.replace('BLAL JAMAL JASEEM', memberName);
+        
+        // ✨ حل التناقض: حقن معرف العضو بداخل دالة إرسال الطلب تلقائياً
+        updatedHtml = updatedHtml.replace('message: fullMessage', 'message: fullMessage, member: "' + memberKey + '"');
+        
+        // عرض الصفحة كاملة بنظافة وبدون مشاكل
+        document.open();
+        document.write(updatedHtml);
+        document.close();
+      });
+  </script>
+</head>
+<body>
+</body>
+</html>
