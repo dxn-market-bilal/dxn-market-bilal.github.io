@@ -995,15 +995,15 @@
 
   <!-- 🔒 1️⃣ كارت التوثيق المطور: يجمع عبارة الوثوقية والزر بمظهر ملموم وعصري جداً -->
   <div style="max-width: 420px; margin: 25px auto 15px auto; padding: 15px; background-color: #ffffff; border: 1px solid #eef2f5; border-radius: 16px; box-shadow: 0 4px 15px rgba(17, 66, 50, 0.03); text-align: center; direction: rtl;">
-      <!-- نص الوثوقية المعتمد -->
-      <div style="color: #114232; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 12px;">
-          <span>🔒 متجر رسمي معتمد</span>
-          <span style="color: #dddddd;">|</span>
-          <span>بإدارة الموزع: بلال جمال جاسم</span>
+     
+ <!-- نص الوثوقية المعتمد بالمنتصف -->
+      <div style="color: #114232; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+          <span>بإدارة عضو شركة DXN بلال جمال جاسم</span>
       </div>
+
       <!-- زر التخفيض الأنيق المدمج -->
       <button onclick="toggleMemberModal()" style="width: 100%; background: linear-gradient(135deg, #114232 0%, #1c5c47 100%); color: #ffffff; border: none; padding: 11px 16px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 13px; box-shadow: 0 4px 12px rgba(17, 66, 50, 0.1); transition: all 0.2s ease;">
-          🎫 اضغط هنا للحصول على كود التخفيض الرسمي
+           للشراء من مراكز البيع بدون توصيل اضغط هنا للحصول على كود التخفيض الرسمي
       </button>
   </div>
 
@@ -1017,11 +1017,14 @@
   <div style="max-width: 420px; margin: 0 auto 25px auto; padding: 0 15px; direction: rtl;">
     <select id="category-select" onchange="filterCategory(this.value)" 
             style="width: 100%; padding: 14px 20px; border: 2px solid #114232; border-radius: 50px; font-size: 15px; box-sizing: border-box; text-align: right; font-weight: 600; color: #114232; background-color: #ffffff; box-shadow: 0 4px 12px rgba(17, 66, 50, 0.04); outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23114232\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><polyline points=\'6 9 12 15 18 9\'></polyline></svg>'); background-repeat: no-repeat; background-position: left 20px center; background-size: 16px; line-height: 1.5;">
-      <option value="الكل" selected>📂 تصفح حسب الأقسام...</option>
-      <option value="مكملات غذائية">🌿 مكملات غذائية</option>
-      <option value="الأغذية والمشروبات الصحية">☕ الأغذية والمشروبات الصحية</option>
-      <option value="منتجات العناية الشخصية">🧼 منتجات العناية الشخصية</option>
-      <option value="منتجات البشرة والتجميل">✨ منتجات البشرة والتجميل</option>
+      
+      <!-- 🌟 ضفنا وسم hidden هنا علشان يثبت كـ عنوان أولي ويختفي من داخل القائمة المنسدلة عند الضغط -->
+      <option value="الكل" selected hidden>📂 تصفح حسب الأقسام...</option>
+      
+      <option value="مكملات غذائية">مكملات غذائية</option>
+      <option value="الأغذية والمشروبات الصحية">الأغذية والمشروبات الصحية</option>
+      <option value="منتجات العناية الشخصية">منتجات العناية الشخصية</option>
+      <option value="منتجات البشرة والتجميل">منتجات البشرة والتجميل</option>
     </select>
   </div>
 
