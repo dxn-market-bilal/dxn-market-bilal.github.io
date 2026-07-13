@@ -1505,107 +1505,129 @@
       imgElement.parentNode.replaceChild(fallbackDiv, imgElement);
     }
 
-    function renderGrid(productsList) {
-       const container = document.getElementById('products-container');
-       const loadingDiv = document.getElementById('loading');
-       container.innerHTML = '';
+   function renderGrid(productsList) {
+   const container = document.getElementById('products-container');
+   const loadingDiv = document.getElementById('loading');
+   container.innerHTML = '';
 
-       if (!productsList || productsList.length === 0) {
-         container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size:16px;">لا توجد منتجات حالياً في هذا القسم.</p>';
-       } else {
-         productsList.forEach(product => {
-           const card = document.createElement('div');
-           card.className = 'product-card';
+   // 🌟 الفحص الحاسم: إظهار الرسالة المخصصة بناءً على سبب اختفاء المنتجات (بحث أو قسم فارغ)
+   if (!productsList || productsList.length === 0) {
+     let searchInput = document.getElementById("product-search");
+     let noResultsMessage = (searchInput && searchInput.value.trim() !== "") 
+       ? "❌ لا يوجد منتج بهذا الاسم أو الفائدة." 
+       : "لا توجد منتجات حالياً في هذا القسم.";
+       
+     container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size:17px; font-weight:bold; color:#cc3333; margin: 40px auto; direction:rtl;">' + noResultsMessage + '</p>';
+   } else {
+     // فرش كروت المنتجات طبيعي بداخل الشبكة
+     productsList.forEach(product => {
+       const card = document.createElement('div');
+       card.className = 'product-card';
 
-           let name = product.name || 'منتج بدون اسم';
-           let rawPrice = Number(product.price);
-           let formattedPrice = !isNaN(rawPrice) ? rawPrice.toLocaleString() : 'غير محدد';
-           let description = product.description || ''; 
-           let imgUrl = (product.img && product.img.trim().startsWith('http')) ? product.img.trim() : '';
-           let productPV = Number(product.pv || product.points || 0);
-           
-           let safeName = name.replace(/'/g, "\\'");
-           let safeDesc = description.replace(/'/g, "\\'").replace(/\n/g, " ");
+       let name = product.name || 'منتج بدون اسم';
+       let rawPrice = Number(product.price);
+       let formattedPrice = !isNaN(rawPrice) ? rawPrice.toLocaleString() : 'غير محدد';
+       let description = product.description || ''; 
+       let imgUrl = (product.img && product.img.trim().startsWith('http')) ? product.img.trim() : '';
+       let productPV = Number(product.pv || product.points || 0);
+       
+       let safeName = name.replace(/'/g, "\\'");
+       let safeDesc = description.replace(/'/g, "\\'").replace(/\n/g, " ");
 
-           let imageSection = imgUrl 
-             ? `<img class="product-img" src="${imgUrl}" alt="${name}" style="cursor: zoom-in;" onclick="zoomImage('${imgUrl}')" onerror="handleImgError(this)">`
-             : `<div class="product-img-fallback">🌿</div>`;
+       let imageSection = imgUrl 
+         ? `<img class="product-img" src="${imgUrl}" alt="${name}" style="cursor: zoom-in;" onclick="zoomImage('${imgUrl}')" onerror="handleImgError(this)">`
+         : `<div class="product-img-fallback">🌿</div>`;
 
-          card.innerHTML = `
-     ${imageSection}
-     <div class="product-info">
-       <div>
-         <h3 class="product-name">${name}</h3>
-         ${description ? `<p class="product-benefits">${description}</p>` : ''}
-       </div>
-       <div>
-         <div class="product-price">${formattedPrice} د.ع</div>
-        <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
-          <button onclick="addToCart('${safeName}', ${rawPrice}, ${productPV})" 
-                  class="btn-add-to-cart" 
-                  style="background-color: #114232 !important; flex: 1; margin: 0 !important; margin-top: 0 !important; transform: none !important; position: relative !important; top: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; font-pointer: cursor; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; height: 46px !important;">
-            إضافة للسلة
-          </button>
-                  
-                  <button type="button" 
-                          onclick="event.stopPropagation(); shareProduct('${safeName}', '${safeDesc}')" 
-                          style="background: #f5f5f5 !important; border: 1px solid #e0e0e0 !important; border-radius: 8px; width: 46px !important; height: 46px !important; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; -webkit-tap-highlight-color: transparent; margin: 0 !important; padding: 0; box-sizing: border-box !important; flex-shrink: 0;" 
-                          title="مشاركة المنتج">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M17 8l5 5-5 5"></path>
-                      <path d="M22 13H9a4 4 0 0 0-4 4v2"></path>
-                    </svg>
-                  </button>
-                </div>
-               </div>
+       card.innerHTML = `
+         ${imageSection}
+         <div class="product-info">
+           <div>
+             <h3 class="product-name">${name}</h3>
+             ${description ? `<p class="product-benefits">${description}</p>` : ''}
+           </div>
+           <div>
+             <div class="product-price">${formattedPrice} د.ع</div>
+             <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
+               <button onclick="addToCart('${safeName}', ${rawPrice}, ${productPV})" 
+                       class="btn-add-to-cart" 
+                       style="background-color: #114232 !important; flex: 1; margin: 0 !important; margin-top: 0 !important; transform: none !important; position: relative !important; top: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; height: 46px !important;">
+                 إضافة للسلة
+               </button>
+               <button type="button" 
+                       onclick="event.stopPropagation(); shareProduct('${safeName}', '${safeDesc}')" 
+                       style="background: #f5f5f5 !important; border: 1px solid #e0e0e0 !important; border-radius: 8px; width: 46px !important; height: 46px !important; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; -webkit-tap-highlight-color: transparent; margin: 0 !important; padding: 0; box-sizing: border-box !important; flex-shrink: 0;" 
+                       title="مشاركة المنتج">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M17 8l5 5-5 5"></path>
+                   <path d="M22 13H9a4 4 0 0 0-4 4v2"></path>
+                 </svg>
+               </button>
              </div>
-           `;
-           container.appendChild(card);
-         });
-       }
-       loadingDiv.style.display = 'none';
-       container.style.display = 'grid';
-    }
-    
-   // 🔍 دالة البحث الذكي بالوقت الفعلي بداخل المنتجات
-function searchProducts() {
-  // لقط الكلمة المكتوبة وتحويلها لأحرف صغيرة علمود دقة البحث
-  let query = document.getElementById("product-search").value.trim().toLowerCase();
-  
-  let filtered = allProducts.filter(p => {
-    let nameMatch = p.name ? p.name.toLowerCase().includes(query) : false;
-    let descMatch = p.description ? p.description.toLowerCase().includes(query) : false;
-    
-    // 🌟 ذكاء اصطناعي: البحث يشتغل بداخل القسم اللّي واكف عليه الزبون حالياً (مكملات، أغذية...)
-    let categoryMatch = (currentCategory === 'الكل') || (p.category && String(p.category).trim() === currentCategory.trim());
-    
-    return categoryMatch && (nameMatch || descMatch);
-  });
-  
-  // إعادة فرش الشبكة بالمنتجات المفلترة فوراً
-  renderGrid(filtered);
+           </div>
+         </div>
+       `;
+       container.appendChild(card);
+     });
+   }
+   
+   // إخفاء اللودر فوراً وإظهار الشبكة
+   if (loadingDiv) loadingDiv.style.display = 'none';
+   container.style.display = 'grid';
 }
-
-// 🌟 تحديث دالة الأقسام السابقة لتصفير خانة البحث عند التنقل بذكاء
+    
+   // 🌟 تحديث دالة الأقسام مع قفل الأمان لمنع الرمشة أثناء التحميل
+// 🌟 دالة الأقسام الذكية: تتفاعل مع الزبون فوراً وتظهر اللودر إذا البيانات لسه كاعد تشحن
 function filterCategory(category, buttonElement) {
   currentCategory = category; 
 
-  // تصفير خانة البحث فوراً عند النقر على قسم جديد علمود ما تتداخل التصفية
+  // تصفير خانة البحث فوراً عند النقر على قسم جديد
   const searchInput = document.getElementById("product-search");
   if (searchInput) searchInput.value = "";
 
+  // تحديث شكل وتحديد الأزرار فوراً أمام الزبون لبيان الاستجابة
   if (buttonElement) {
     const buttons = document.querySelectorAll('.btn-category');
     buttons.forEach(btn => btn.classList.remove('active'));
     buttonElement.classList.add('active');
   }
 
+  // 🚨 الشرط الذكي: إذا المصفوفة فارغة والنت بعده كاعد يحمل، رجّع اللودر واطلع فوراً
+  if (!allProducts || allProducts.length === 0) {
+    const loadingDiv = document.getElementById('loading');
+    const container = document.getElementById('products-container');
+    if (loadingDiv && container) {
+      loadingDiv.innerHTML = "جاري إظهار المنتجات...";
+      loadingDiv.style.display = 'block'; // إظهار عبارة جاري الإشهار
+      container.style.display = 'none';   // إخفاء حاوية المنتجات مؤقتاً
+    }
+    return; // الخروج علمود ما يعبر لكود الفلترة ويخرب اللودر
+  }
+
+  // --- إذا البيانات ملوّدة وجاهزة، كمل الفلترة المعتادة وافرش بالشاشة ---
   let filtered = [];
   if (category === 'الكل') {
     filtered = allProducts;
   } else {
     filtered = allProducts.filter(p => p.category && String(p.category).trim() === category.trim());
   }
+  renderGrid(filtered);
+}
+
+// 🔍 دالة البحث الذكي مع قفل الأمان
+function searchProducts() {
+  // ⛔ شرط الأمان: إذا لسه كاعد يحمل البيانات، لتشغل البحث علمود ما يخرب اللودر
+  if (!allProducts || allProducts.length === 0) return;
+
+  let query = document.getElementById("product-search").value.trim().toLowerCase();
+  
+  let filtered = allProducts.filter(p => {
+    let nameMatch = p.name ? p.name.toLowerCase().includes(query) : false;
+    let descMatch = p.description ? p.description.toLowerCase().includes(query) : false;
+    let categoryMatch = (currentCategory === 'الكل') || (p.category && String(p.category).trim() === currentCategory.trim());
+    
+    return categoryMatch && (nameMatch || descMatch);
+  });
+  
   renderGrid(filtered);
 }
 
