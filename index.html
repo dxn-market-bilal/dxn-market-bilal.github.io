@@ -989,31 +989,59 @@
     </div>
   </div>
 
-  <div id="products-container" class="products-grid" style="display: grid;">
+  <!-- 🟢 تغيير display إلى grid وإضافة المنتجات بالداخل مباشرة -->
+<div id="products-container" class="products-grid" style="display: grid;">
 
-  <!-- 📦 المنتج الأول -->
+  <!-- 📦 قالب المنتج الأول (انسخه لكل منتج جديد) -->
   <div class="product-card">
-    <img class="product-img" src="رابط_الصورة" alt="فطر الريشي" onclick="zoomImage(this.src)">
+    <img class="product-img" src="ضع_رابط_الصورة_هنا" alt="اسم المنتج" style="cursor: zoom-in;" onclick="zoomImage('ضع_رابط_الصورة_هنا')">
     <div class="product-info">
-      <h3 class="product-name">فطر الريشي (الجانوديرما)</h3>
-      <p class="product-benefits">يعزز المناعة العامة وينظف الجسم من السموم.</p>
-      <div class="product-price">28,000 د.ع</div>
-      <button onclick="addToCart('فطر الريشي', 28000, 20)" class="btn-add-to-cart">إضافة للسلة</button>
+      <div>
+        <h3 class="product-name">فطر الريشي (الجانوديرما)</h3>
+        <p class="product-benefits">يعزز المناعة العامة، ينظف الجسم من السموم، ويجدد خلايا الجسم.</p>
+      </div>
+      <div>
+        <div class="product-price">28,000 د.ع</div>
+        <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
+          <!-- ⚠️ انتبه للتفاصيل داخل دالة addToCart: (الاسم، السعر كنقم بدون فواصل، النقاط PV) -->
+          <button onclick="addToCart('فطر الريشي (الجانوديرما)', 28000, 20)" class="btn-add-to-cart" style="background-color: #114232 !important; flex: 1; margin: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 46px !important;">
+            إضافة للسلة
+          </button>
+          <button type="button" onclick="event.stopPropagation(); shareProduct('فطر الريشي (الجانوديرما)', 'يعزز المناعة العامة، ينظف الجسم من السموم.')" style="background: #f5f5f5 !important; border: 1px solid #e0e0e0 !important; border-radius: 8px; width: 46px !important; height: 46px !important; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 !important; padding: 0; flex-shrink: 0;" title="مشاركة المنتج">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 8l5 5-5 5"></path>
+              <path d="M22 13H9a4 4 0 0 0-4 4v2"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 📦 المنتج الثاني -->
+  <!-- 📦 قالب المنتج الثاني (كرره بنفس الطريقة) -->
   <div class="product-card">
-    <img class="product-img" src="رابط_الصورة" alt="سبيرولينا" onclick="zoomImage(this.src)">
+    <img class="product-img" src="ضع_رابط_الصورة_هنا" alt="سبيرولينا" style="cursor: zoom-in;" onclick="zoomImage('ضع_رابط_الصورة_هنا')">
     <div class="product-info">
-      <h3 class="product-name">سبيرولينا</h3>
-      <p class="product-benefits">الغذاء الفائق الغني بالفيتامينات والمعادن.</p>
-      <div class="product-price">18,000 د.ع</div>
-      <button onclick="addToCart('سبيرولينا', 18000, 15)" class="btn-add-to-cart">إضافة للسلة</button>
+      <div>
+        <h3 class="product-name">سبيرولينا</h3>
+        <p class="product-benefits">الغذاء الفائق الغني بالفيتامينات، المعادن، والبروتين الطبيعي.</p>
+      </div>
+      <div>
+        <div class="product-price">18,000 د.ع</div>
+        <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
+          <button onclick="addToCart('سبيرولينا', 18000, 15)" class="btn-add-to-cart" style="background-color: #114232 !important; flex: 1; margin: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 46px !important;">
+            إضافة للسلة
+          </button>
+          <button type="button" onclick="event.stopPropagation(); shareProduct('سبيرولينا', 'الغذاء الفائق الغني بالفيتامينات والمعادن.')" style="background: #f5f5f5 !important; border: 1px solid #e0e0e0 !important; border-radius: 8px; width: 46px !important; height: 46px !important; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 !important; padding: 0; flex-shrink: 0;" title="مشاركة المنتج">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 8l5 5-5 5"></path>
+              <path d="M22 13H9a4 4 0 0 0-4 4v2"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-
-  <!-- تضيف باقي المنتجات بنفس الطريقة هنا -->
 
 </div>
 
