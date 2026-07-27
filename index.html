@@ -983,13 +983,13 @@
     </select>
   </div>
 
-  <div class="loading-container" style="display: flex; justify-content: center; align-items: center; width: 100%; padding: 20px 0; box-sizing: border-box;">
+  <div class="loading-container" style="display: none; justify-content: center; align-items: center; width: 100%; padding: 20px 0; box-sizing: border-box;">
     <div id="loading" class="loading" style="text-align: center; font-weight: bold; font-size: 16px; color: #114232;">
         جاري إظهار المنتجات...
     </div>
   </div>
 
-  <div id="products-container" class="products-grid" style="display: none;"></div>
+  <div id="products-container" class="products-grid" style="display: grid;"></div>
 
   <!-- 🟢 قائمة الاتصال السفلية المحدثة بنظام سهم "للاستفسار" منبثق باللون الرصاصي -->
   <div class="floating-contact-bar">
@@ -1220,46 +1220,480 @@
     let cart = []; 
     let currentCategory = 'الكل'; 
 
-   window.onload = function() {
+  window.onload = function() {
   if (window.location.hash) {
     history.replaceState(null, document.title, window.location.pathname + window.location.search);
   }
 
-  const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPq5PlIvetAueCo5ugjEYIQzLeoBuQMh83n6R2R2-jrVyYt-3ooMKBOTaJWCfjdkMe/exec";
+  // 📦 مصفوفة المنتجات الـ 57 المكتملة مع روابط WebP المباشرة والفوائد الكاملة
+  allProducts = [
+    // 🟢 قسم: مكملات غذائية
+    { 
+      name: "طلع النحل", 
+      description: "مغذٍ طبيعي فائق الجودة غني بالبروتينات النباتية، الأحماض الأمينية، والفيتامينات، يدعم مستويات الطاقة والنشاط البدني العام", 
+      price: 29944, 
+      pv: 17, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/1.webp" 
+    },
+    { 
+      name: "بودرة اللؤلؤ", 
+      description: "مسحوق لؤلؤ طبيعي نقي غني بالكالسيوم والأحماض الأمينية، يُستخدم تقليدياً للعناية بالبشرة، دعم نضارتها، وتحسين مظهرها الحيوي", 
+      price: 40280, 
+      pv: 20, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/2.webp" 
+    },
+    { 
+      name: "مسحوق الكوردسيبس", 
+      description: "فطر طبيعي نادر معروف علمياً بقدرته على تعزيز كفاءة استخدام الأكسجين في الجسم، دعم الجهاز التنفسي، وزيادة القدرة على التحمل البدني", 
+      price: 96900, 
+      pv: 50, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/3.webp" 
+    },
+    { 
+      name: "مسحوق فطر الشيتاكي", 
+      description: "فطر غذائي شهير غني بمركبات البيتا-جلوكان والفيتامينات الأساسية، يساهم في دعم الجهاز المناعي وتعزيز الصحة العامة", 
+      price: 40812, 
+      pv: 21, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/4.webp" 
+    },
+    { 
+      name: "مسحوق بوريا-إس", 
+      description: "مستخلص فطر البوريا (Poria cocos) الغني بمضادات الأكسدة والسكريات المتعددة، يُستخدم تقليدياً لدعم التوازن الداخلي وصحة الهضم", 
+      price: 22192, 
+      pv: 13, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/5.webp" 
+    },
+    { 
+      name: "مسحوق الكركديه المجفف", 
+      description: "مسحوق غني بفيتامين C والأحماض العضوية ومضادات الأكسدة القوية، يساهم في دعم صحة الدورة الدموية وتوفير انتعاش طبيعي", 
+      price: 18544, 
+      pv: 11, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/6.webp" 
+    },
+    { 
+      name: "مسحوق فطر حليب النمر", 
+      description: "فطر حيوي متميز يحظى باهتمام علمي لدوره الفعال في دعم وتلطيف الجهاز التنفسي، وتخفيف الحساسية الموسمية، وتعزيز المناعة الطبيعية", 
+      price: 48944, 
+      pv: 29, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/7.webp" 
+    },
+    { 
+      name: "مسحوق السبايرولينا", 
+      description: "طحالب خضراء مزرقة (سوبر فود) عالية القيمة الغذائية، توفر بروتيناً نباتياً متكاملاً، حديداً، ومضادات أكسدة لدعم الحيوية اليومية ومحاربة الإجهاد", 
+      price: 44536, 
+      pv: 35, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/8.webp" 
+    },
+    { 
+      name: "مسحوق فطر عرف الأسد", 
+      description: "فطر متميز يحتوي على مركبات طبيعية تحفز عامل نمو الأعصاب (NGF)، مما يساهم في تحسين التركيز، الذاكرة، ودعم صحة الجهاز الهضمي", 
+      price: 42408, 
+      pv: 22, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/9.webp" 
+    },
+    { 
+      name: "مسحوق الفطر الريشي", 
+      description: "مستخلص فطر الجانوديرما النقي الغني بالتربينات والثنائيات الحيوية؛ يعمل كمضاد أكسدة قوي يدعم طرد السموم، تعزيز المناعة، وإعادة التوازن الحيوي للجسم", 
+      price: 105792, 
+      pv: 70, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/10.webp" 
+    },
+    { 
+      name: "مايكوفيجي", 
+      description: "خليط متكامل غني بالألياف الغذائية النباتية من خضروات وفطور وأعشاب نادرة، يساهم بفعالية في تنظيف الجهاز الهضمي، تحسين الهضم، ودعم برامج التحكم بالوزن", 
+      price: 102296, 
+      pv: 70, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/11.webp" 
+    },
+    { 
+      name: "مايكوفيتا", 
+      description: "تركيبة مركزة وعالية النقاوة تجمع بين ميسليوم الفطر الريشي وجسمه الثمري، مصممة لتقديم أقصى دعم مناعي ومقاومة الأكسدة الخلوية", 
+      price: 430540, 
+      pv: 305, 
+      category: "مكملات غذائية", 
+      img: "https://dxn-market-bilal.github.io/12.webp" 
+    },
 
-  const cachedProducts = localStorage.getItem("dxn_products_cache");
-  if (cachedProducts) {
-    allProducts = JSON.parse(cachedProducts);
-    filterCategory(currentCategory);
-  }
+    // 🟢 قسم: الأغذية والمشروبات الصحية
+    { 
+      name: "قهوة لينجزي 3 في 1", 
+      description: "قهوة سريعة التحضير تجمع بين المذاق الغني المتوازن والمبيّض النباتي، معززة بخلاصة الفطر الريشي لتقليل التأثير الحامضي للكافيين على المعدة", 
+      price: 19380, 
+      pv: 10, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/13.webp" 
+    },
+    { 
+      name: "قهوة لينجزي السوداء", 
+      description: "قهوة سوداء فاخرة بنكهة قوية ومميزة وخالية تماماً من السكر، مضاف إليها خلاصة الفطر الريشي لتمنحك طاقة ونشاطاً بدون إجهاد حامضي", 
+      price: 19380, 
+      pv: 10, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/14.webp" 
+    },
+    { 
+      name: "مشروب كوكوزي(كاكاو)", 
+      description: "مشروب كاكاو فاخر غني بمستخلص الفطر الريشي الصغير (GL)، يمنح الأطفال والكبار طاقة طبيعية ونشاطاً ذهنياً بفضل قيمته الغذائية العالية ومذاقه المحبوب", 
+      price: 25840, 
+      pv: 13, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/15.webp" 
+    },
+    { 
+      name: "قهوة كورديسيبس 3 في 1", 
+      description: "توليفة مميزة من القهوة الفاخرة الممزوجة بمستخلص فطر الكورديسيبس، توفر طاقة بدنية مستدامة وتدعم الحيوية والنشاط طوال اليوم", 
+      price: 23788, 
+      pv: 11, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/16.webp" 
+    },
+    { 
+      name: "شاي لينجزي", 
+      description: "شاي سيلاني نقي منتقى بعناية ومعزز بخلاصة الفطر الريشي، يجمع بين النكهة الأصيلة وفوائد مضادات الأكسدة لإنعاش الجسم وتصفية الذهن", 
+      price: 18696, 
+      pv: 10, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/17.webp" 
+    },
+    { 
+      name: "عصير مورينزي كبير", 
+      description: "عصير طبيعي مستخلص من فاكهة النوني الاستوائية (الموريندا) المخمرة، غني بالإنزيمات الحية ومضادات الأكسدة التي تدعم كفاءة الجهاز الهضمي والمناعة", 
+      price: 57760, 
+      pv: 35, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/18.webp" 
+    },
+    { 
+      name: "عصير مورينزي صغير", 
+      description: "عصير طبيعي مستخلص من فاكهة النوني الاستوائية (الموريندا) المخمرة، غني بالإنزيمات الحية ومضادات الأكسدة التي تدعم كفاءة الجهاز الهضمي والمناعة", 
+      price: 27360, 
+      pv: 17, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/19.webp" 
+    },
+    { 
+      name: "عصير الكيوي", 
+      description: "عصير مركز من ثمار الكيوي الغنية بفيتامين C والألياف الغذائية، يقدم مذاقاً حامضاً حلواً منعشاً يدعم ترطيب الجسم وحيوته", 
+      price: 32984, 
+      pv: 22, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/20.webp" 
+    },
+    { 
+      name: "ليمونزي", 
+      description: "مشروب صيفي منعش يجمع بين الشاي الأسود، الليمون الطبيعي، وخلاصة الفطر الريشي، مثالي لتجديد الطاقة والنشاط في الأيام الحارة", 
+      price: 18620, 
+      pv: 8, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/21.webp" 
+    },
+    { 
+      name: "عصير المورينزايم", 
+      description: "مستخلص نقي ومركز من فاكهة النوني الغنية بالإنزيمات الحية النشطة، مصمم خصيصاً لتسهيل عملية الهضم، وامتصاص العناصر الغذائية، ودعم بيئة الأمعاء الصحية", 
+      price: 27360, 
+      pv: 17, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/22.webp" 
+    },
+    { 
+      name: "عصير روسيل", 
+      description: "شراب مركز ومستخلص من سبلات زهرة الكركديه، غني بفيتامين C والفلافونيدات، يتميز بمذاقه المنعش ودعمه الطبيعي للنظام الوعائي", 
+      price: 18924, 
+      pv: 12, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/23.webp" 
+    },
+    { 
+      name: "عصير كوردیباین", 
+      description: "مزيج فريد يجمع بين عصير الأناناس الطبيعي المخمر الغني بإنزيم البروميلين الهاضم ومستخلص فطر الكورديسيبس، لدعم الهضم، المفاصل، والطاقة البدنية", 
+      price: 38076, 
+      pv: 20, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/24.webp" 
+    },
+    { 
+      name: "سيريال سبايرولينا", 
+      description: "رقائق مقرمشة ومغذية من القمح والشوفان المعززة بطحالب السبايرولينا، توفر وجبة إفطار خفيفة، غنية بالألياف والمعادن لبداية يوم مليء بالنشاط", 
+      price: 51300, 
+      pv: 30, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/25.webp" 
+    },
+    { 
+      name: "حلوى النعناع (زهي مينت)", 
+      description: "أقراص نعناع منعشة وخالية من السكر معززة بخلاصة الفطر الريشي، تمنح الفم نفساً بارداً وطيباً وتلطف الحلق بفعالية سريعة", 
+      price: 38760, 
+      pv: 28, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/26.webp" 
+    },
+    { 
+      name: "مربى الأناناس", 
+      description: "مربى طبيعي مصنوع من قطع الأناناس الاستوائية الغنية بالإنزيمات والمعززة بالفطر الريشي، خيار صحي ولذيذ وخالٍ من الملونات الصناعية", 
+      price: 11552, 
+      pv: 6, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/27.webp" 
+    },
+    { 
+      name: "خل ديكسن(خل الرز)", 
+      description: "خل رز طبيعي نقي مخمر بعناية مع الفطر الريشي، يساهم في دعم قلوية الجسم ويضفي نكهة صحية ومميزة للسلطات والأطباق اليومية", 
+      price: 46436, 
+      pv: 28, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/28.webp" 
+    },
+    { 
+      name: "عسل السدر الطبيعي", 
+      description: "عسل نقي مستخلص من مناحل السدر، يتميز بقيمته الحيوية العالية ومذاقه الفاخر، ويعتبر مصدراً فورياً للطاقة الطبيعية ومقوياً للمناعة", 
+      price: 63460, 
+      pv: 28, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/29.webp" 
+    },
+    { 
+      name: "زيت جوز الهند", 
+      description: "زيت طبيعي بكر ممتاز غني بالعناصر المغذية، يمنح ترطيباً فائقاً ولمعاناً للشعر والبشرة، ومثالي لتعزيز طاقة ومناعة الجسم والطهي الصحي", 
+      price: 38608, 
+      pv: 14, 
+      category: "الأغذية والمشروبات الصحية", 
+      img: "https://dxn-market-bilal.github.io/30.webp" 
+    },
 
-  if (typeof memberKey !== 'undefined' || window.memberKey) {
-    document.querySelectorAll('.main-site-only').forEach(el => el.style.display = 'none');
-  }
+    // 🟢 قسم: منتجات العناية الشخصية
+    { 
+      name: "معجون أسنان جانوزي", 
+      description: "معجون أسنان مبتكر غني بخلاصة الفطر الريشي، خالٍ تماماً من الفلورايد الصناعي والسكرين، ينظف الأسنان برفق ويدعم صحة اللثة وانتعاش النفس", 
+      price: 11932, 
+      pv: 6, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/31.webp" 
+    },
+    { 
+      name: "معجون أسنان جانوزي صغير 4 قطع", 
+      description: "مجموعة اقتصادية وعملية للسفر من معجون أسنان جانوزي الطبيعي، تضمن لك حماية لثتك ونظافة أسنانك في أي مكان", 
+      price: 16720, 
+      pv: 8, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/32.webp" 
+    },
+    { 
+      name: "معجون اسنان جانوزي بلس", 
+      description: "تركيبة متطورة من معجون الأسنان جانوزي، مضاف إليها النعناع الطبيعي الإضافي وخلاصة الجانوديرما لتمنح الفم نظافة أعمق وانتعاشاً بارداً يدوم طويلاً", 
+      price: 11932, 
+      pv: 6, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/33.webp" 
+    },
+    { 
+      name: "فرشة أسنان كبيرة", 
+      description: "مصممة بشعيرات ناعمة ومتقنة هندسياً لتنظيف الأسطح الدقيقة للأسنان وإزالة الرواسب بلطف دون التسبب في تهيج أو تجريح اللثة", 
+      price: 5168, 
+      pv: 1, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/34.webp" 
+    },
+    { 
+      name: "فرشة أسنان صغيرة", 
+      description: "فرشة برأس مصغر ومريح، مثالية للوصول إلى الزوايا الخلفية الضيقة وتنظيف الأسنان بدقة مع توفير حماية كاملة للثة الحساسة", 
+      price: 5168, 
+      pv: 1, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/35.webp" 
+    },
+    { 
+      name: "كريم شجرة الشاي", 
+      description: "كريم طبيعي مهدئ ومضاد للبكتيريا يحتوي على زيت شجرة الشاي النقي، سريع الامتصاص لحماية البشرة، ترطيبها، وتلطيف التهيجات الجلدية الخفيفة", 
+      price: 12920, 
+      pv: 6, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/36.webp" 
+    },
+    { 
+      name: "زيت الجانو", 
+      description: "زيت مساج فاخر يجمع بين زيت النخيل النقي الغني بفيتامينات (A و E) وخلاصة الفطر الريشي، مثالي لترطيب الجلد وتخفيف إجهاد العضلات والمفاصل", 
+      price: 15884, 
+      pv: 9, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/37.webp" 
+    },
+    { 
+      name: "بودرة تالكوم", 
+      description: "بودرة جسم ناعمة ومنعشة تحتوي على مستخلص الفطر الريشي، تساعد في امتصاص الرطوبة الزائدة، تقليل الاحتكاك، وتمنح الجسم رائحة عطرية طيبة", 
+      price: 13376, 
+      pv: 9, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/38.webp" 
+    },
+    { 
+      name: "شامبو جسم جانوزي", 
+      description: "سائل استحمام لطيف غني بخلاصة الفطر الريشي وفيتامين E، ينظف البشرة بعمق دون حرمانها من رطوبتها الطبيعية، ويتركها ناعمة وحيوية", 
+      price: 15732, 
+      pv: 11, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/39.webp" 
+    },
+    { 
+      name: "شامبو شعر جانوزي", 
+      description: "شامبو ذو تركيبة متوازنة الهيدروجين (pH) معززة بالفطر الريشي وفيتامين B5، ينظف فروة الرأس برفق ويساعد في تقوية الشعر من الجذور وتغذيته", 
+      price: 15732, 
+      pv: 11, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/40.webp" 
+    },
+    { 
+      name: "شامبو شعر جانوزي بلس", 
+      description: "تركيبة مطورة ومكثفة تمنح فروة الرأس تغذية إضافية، تساهم في ترطيب الشعر الجاف والمجهد، وإعادة اللمعان والملمس الحريري الطبيعي له", 
+      price: 18012, 
+      pv: 12, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/41.webp" 
+    },
+    { 
+      name: "صابون جانوزي", 
+      description: "صابونة طبيعية تحتوي على مستخلص الفطر الريشي وفيتامين E، تعمل على تنظيف خلايا البشرة وحمايتها من الأكسدة مع الحفاظ على نعومتها", 
+      price: 5700, 
+      pv: 3, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/42.webp" 
+    },
+    { 
+      name: "صابون جانوزي (2 قطع)", 
+      description: "صابونة طبيعية تحتوي على مستخلص الفطر الريشي وفيتامين E، تعمل على تنظيف خلايا البشرة وحمايتها من الأكسدة مع الحفاظ على نعومتها", 
+      price: 11324, 
+      pv: 5, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/43.webp" 
+    },
+    { 
+      name: "صابون أوشا ترانس", 
+      description: "صابون شفاف لطيف للغاية غني بمستخلصات عشبية وزيوت نباتية، مصمم لتنظيف البشرة الحساسة بعمق وترطيبها بشكل فائق دون أي جفاف", 
+      price: 20140, 
+      pv: 10, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/44.webp" 
+    },
+    { 
+      name: "زهيميكو", 
+      description: "كريم موضعي مهدئ غني بالمستخلصات الطبيعية الملطفة، مصمم لحماية البشرة، ترطيبها، وتخفيف الإجهاد والتهيجات الموضعية في الجلد", 
+      price: 13452, 
+      pv: 6, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/45.webp" 
+    },
+    { 
+      name: "عطر رجالي fiza", 
+      description: "عطر رجالي راقٍ يجمع بين النوتات العطرية المنعشة والخشبية الدافئة، يمنحك حضوراً واثقاً وجاذبية تدوم طويلاً طوال اليوم", 
+      price: 50008, 
+      pv: 27, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/46.webp" 
+    },
+    { 
+      name: "عطر نسائي fayha", 
+      description: "عطر نسائي فاخر ينبض بنفحات الزهور الرقيقة والفواكه الاستوائية، يمنحك إحساساً بالأناقة، النعومة، والانتعاش الدائم", 
+      price: 50008, 
+      pv: 27, 
+      category: "منتجات العناية الشخصية", 
+      img: "https://dxn-market-bilal.github.io/47.webp" 
+    },
 
-  let currentMember = (typeof window.memberKey !== 'undefined') ? window.memberKey : 'main';
-  let finalFetchUrl = googleWebAppUrl + "?memberKey=" + currentMember;
+    // 🟢 قسم: منتجات البشرة والتجميل
+    { 
+      name: "منظف جانوزي", 
+      description: "غسول ولطيف ومنظف عميق للوجه غني بخلاصة الفطر الريشي، يزيل الأوساخ وبقايا المكياج من المسام بفعالية ويترك البشرة ناعمة ومهيأة للتغذية", 
+      price: 52288, 
+      pv: 36, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/48.webp" 
+    },
+    { 
+      name: "تونر جانوزي", 
+      description: "سائل منشط وموازن لإفرازات البشرة يحتوي على الجانوديرما ومستخلصات نباتية، يساعد في تقليص مظهر المسام، ترطيب الوجه، وإعادة الحيوية له", 
+      price: 52288, 
+      pv: 36, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/49.webp" 
+    },
+    { 
+      name: "مقشر بابايا", 
+      description: "مقشر طبيعي للوجه غني بخلاصة ثمار البابايا الحيوية وجزيئات التقشير الدقيقة، يزيل خلايا الجلد الميتة برفق ويجدد إشراقة البشرة ونعومتها", 
+      price: 17252, 
+      pv: 8, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/50.webp" 
+    },
+    { 
+      name: "مستحلب جانوزي", 
+      description: "مستحلب خفيف وسريع الامتصاص غني بالفطر الريشي والمكونات المرطبة المتقدمة، يغذي خلايا البشرة، يدعم مرونتها، ويحميها من الجفاف العوامل الخارجية", 
+      price: 57988, 
+      pv: 40, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/51.webp" 
+    },
+    { 
+      name: "زيت جسم الاطفال", 
+      description: "زيت نقي، خفيف، وآمن تماماً مصمم خصيصاً لبشرة الرضع والأطفال الحساسة، يوفر ترطيباً عميقاً ومثالي للمساج وتلطيف الجلد ضد الجفاف", 
+      price: 11400, 
+      pv: 7, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/52.webp" 
+    },
+    { 
+      name: "ألوفيرا(كريم ليلي)", 
+      description: "كريم غني بمستخلص الصبار الطبيعي المرطب، يعمل على تغذية البشرة بعمق وتجديد حيوية الخلايا وترطيبها المكثف أثناء فترة الاسترخاء والنوم", 
+      price: 16416, 
+      pv: 10, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/53.webp" 
+    },
+    { 
+      name: "ألوفيرا(مرطب نهاري)", 
+      description: "مرطب يومي خفيف سريع الامتصاص غني بالألوفيرا، يشكل طبقة حماية طبيعية تحمي البشرة من الجفاف وتمنحها مرونة ونعومة طوال النهار", 
+      price: 22268, 
+      pv: 14, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/54.webp" 
+    },
+    { 
+      name: "ألوفيرا(هلام التطهير)", 
+      description: "جل منظف ولطيف للوجه يحتوي على مستخلص الصبار، ينظف مسام البشرة بعمق من الأوساخ والدهون الزائدة دون أن يسبب لها أي جفاف أو تهيج", 
+      price: 12692, 
+      pv: 7, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/55.webp" 
+    },
+    { 
+      name: "ألوفيرا(لوشن للجسم والأيدي)", 
+      description: "لوشن مرطب للجسم واليدين بتركيبة الصبار المغذية، سريع الامتصاص ويمنح الجلد جفافاً مريحاً ونعومة فائقة ومرونة تدوم طويلاً", 
+      price: 12692, 
+      pv: 7, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/56.webp" 
+    },
+    { 
+      name: "ألوفيرا تونر", 
+      description: "تونر منعش وملطف للبشرة بخلاصة الألوفيرا النظيفة، يعمل على موازنة حموضة الجلد الطبيعية (pH)، تضييق المسام، وإنعاش الوجه بعد التنظيف", 
+      price: 12692, 
+      pv: 7, 
+      category: "منتجات البشرة والتجميل", 
+      img: "https://dxn-market-bilal.github.io/57.webp" 
+    }
+  ];
 
-  fetch(finalFetchUrl)
-    .then(response => {
-      if (!response.ok) throw new Error("فشل الاتصال بسيرفر البيانات");
-      return response.json();
-    })
-    .then(data => {
-      if (data && !data.error) {
-        localStorage.setItem("dxn_products_cache", JSON.stringify(data));
-        allProducts = data;
-        filterCategory(currentCategory, null);
-      } else {
-        handleResponse(data);
-      }
-    })
-    .catch(err => {
-      if (!allProducts || allProducts.length === 0) {
-        document.getElementById('loading').innerHTML = "<span style='color:red;'>حدث خطأ في الاتصال: " + err.message + "</span>";
-      }
-      console.error("خطأ خلفي في تحديث البيانات:", err);
-    });
+  // 🚀 رسم المنتجات مباشرة بالشكل القديم الكامل وسرعة فائقة!
+  renderGrid(allProducts);
 };
 
     function showLoading(show) {
@@ -1506,7 +1940,7 @@
              <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; height: 46px !important;">
                <button onclick="addToCart('${safeName}', ${rawPrice}, ${productPV})" 
                        class="btn-add-to-cart" 
-                       style="background-color: #114232 !important; flex: 1; margin: 0 !important; margin-top: 0 !important; transform: none !important; position: relative !important; top: 0 !important; font-size: 18px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; height: 46px !important;">
+                       style="background-color: #114232 !important; flex: 1; margin: 0 !important; margin-top: 0 !important; transform: none !important; position: relative !important; top: 0 !important; font-size: 19px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-sizing: border-box !important; height: 46px !important;">
                  إضافة للسلة
                </button>
                <button type="button" 
