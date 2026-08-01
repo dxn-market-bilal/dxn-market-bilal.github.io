@@ -2,19 +2,19 @@
   "name": "متجر DXN للمنتجات العضوية", 
   "short_name": "متجر منتجات DXN",
   "description": "متجر متميز لطلب المنتجات الصحية والطبيعية من DXN",
-  "start_url": "/afnan_nabeel/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#114232",
   "theme_color": "#114232",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "../icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icon-512.png",
+      "src": "../icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
